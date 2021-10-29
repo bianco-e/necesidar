@@ -16,9 +16,6 @@ export default function Footer() {
         <Link href="/">
           <a>Sugerir cambios</a>
         </Link>
-        <Link href="/">
-          <a>Algun otro link aca jaja</a>
-        </Link>
         <a href="https://www.twitter.com" target="_blank">
           <img src="https://i.pinimg.com/originals/c1/7f/11/c17f11f39dd7df48f8b54604b1745ee7.png" />
         </a>

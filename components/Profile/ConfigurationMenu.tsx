@@ -28,7 +28,7 @@ export default function ConfigurationMenu() {
         />
       </div>
       <div className="menu-field">
-        <p>Telefono</p>
+        <p>Teléfono</p>
         <Input
           borderColor="#c7c7c7"
           height="40px"

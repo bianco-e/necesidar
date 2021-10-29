@@ -4,12 +4,6 @@ import Link from "next/link";
 export default function ExploreMainButtons() {
   return (
     <ButtonsContainer>
-      <Link href="/donaciones">
-        <a>
-          <span>Ver donaciones</span>
-          <img alt="mano donando" src="/icons/explore-giving-hand-icon.png" />
-        </a>
-      </Link>
       <Link href="/necesidades">
         <a>
           <span>Ver necesidades</span>
@@ -17,6 +11,12 @@ export default function ExploreMainButtons() {
             alt="mano recibiendo"
             src="/icons/explore-receiving-hand-icon.png"
           />
+        </a>
+      </Link>
+      <Link href="/donaciones">
+        <a>
+          <span>Ver donaciones</span>
+          <img alt="mano donando" src="/icons/explore-giving-hand-icon.png" />
         </a>
       </Link>
     </ButtonsContainer>
@@ -38,15 +38,15 @@ const ButtonsContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 190px;
+    height: 180px;
     padding: 25px;
     transition: all 0.4s ease;
     > span {
-      font-size: 36px;
+      font-size: 30px;
       transition: all 0.4s ease;
     }
     > img {
-      width: 130px;
+      width: 120px;
     }
     &:hover {
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.12);
