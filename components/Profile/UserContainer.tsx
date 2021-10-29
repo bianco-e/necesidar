@@ -16,10 +16,17 @@ export default function UserContainer() {
         <p className="user-email">jorgelina_perez_desantis@gmail.com</p>
       </Container>
 
-      <Button onClick={() => push("/publicar")} width="100%">
+      <Button
+        onClick={() => push("/publicar")}
+        variant="secondary"
+        width="100%"
+      >
         Publicar
       </Button>
       <Container>
+        <Button onClick={() => push("/perfil/mis-favoritos")} variant="primary">
+          Mis favoritos
+        </Button>
         <Button
           onClick={() => push("/perfil/mis-donaciones")}
           variant="donations"
@@ -45,7 +52,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 620px;
+  height: 660px;
   padding: 25px;
   width: 330px;
 `;

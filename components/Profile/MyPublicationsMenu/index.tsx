@@ -3,14 +3,22 @@ import { PublicationData } from "../../../interfaces";
 import MyPublicationCard from "./MyPublicationCard";
 
 interface IProps {
+  forFavorites?: boolean;
   publications: PublicationData[];
 }
 
-export default function MyPublicationsMenu({ publications }: IProps) {
+export default function MyPublicationsMenu({
+  forFavorites = false,
+  publications,
+}: IProps) {
   return (
     <Wrapper>
       {publications.map((publication) => (
-        <MyPublicationCard key={publication.id} publication={publication} />
+        <MyPublicationCard
+          key={publication.id}
+          forFavorites={forFavorites}
+          publication={publication}
+        />
       ))}
     </Wrapper>
   );

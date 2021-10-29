@@ -64,6 +64,7 @@ const Wrapper = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 12px;
     width: 100%;
     > p {
       font-size: 20px;

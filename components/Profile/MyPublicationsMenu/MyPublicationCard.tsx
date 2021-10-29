@@ -5,10 +5,14 @@ import { ellipseText } from "../../../utils/helpers";
 import { useRouter } from "next/router";
 
 interface IProps {
+  forFavorites?: boolean;
   publication: PublicationData;
 }
 
-export default function MyPublicationCard({ publication }: IProps) {
+export default function MyPublicationCard({
+  forFavorites,
+  publication,
+}: IProps) {
   const [showButtons, setShowButtons] = useState<boolean>(false);
   const { push } = useRouter();
   return (
@@ -16,16 +20,24 @@ export default function MyPublicationCard({ publication }: IProps) {
       onMouseEnter={() => setShowButtons(true)}
       onMouseLeave={() => setShowButtons(false)}
       showButtons={showButtons}
-      views={publication.requests_number}
+      views={!forFavorites ? publication.requests_number : undefined}
       onClick={() => push(`/id/${publication.id}`)}
     >
       <div className="buttons-container">
-        <button onClick={(e) => e.stopPropagation()}>
-          <img alt="editar" src="/icons/nd-edit-icon.png" />
-        </button>
-        <button onClick={(e) => e.stopPropagation()}>
-          <img alt="eliminar" src="/icons/nd-delete-icon.png" />
-        </button>
+        {!forFavorites ? (
+          <>
+            <button onClick={(e) => e.stopPropagation()}>
+              <img alt="editar" src="/icons/nd-edit-icon.png" />
+            </button>
+            <button onClick={(e) => e.stopPropagation()}>
+              <img alt="eliminar" src="/icons/nd-delete-icon.png" />
+            </button>
+          </>
+        ) : (
+          <button onClick={(e) => e.stopPropagation()}>
+            <img alt="favorito" src="/icons/singleview-filled-heart-icon.png" />
+          </button>
+        )}
       </div>
       <img alt={publication.title} src={publication.images[0]} />
       <div className="data-container">
@@ -38,7 +50,7 @@ export default function MyPublicationCard({ publication }: IProps) {
 
 interface StyleProps {
   showButtons: boolean;
-  views: number;
+  views?: number;
 }
 
 const Card = styled.div`
@@ -56,12 +68,11 @@ const Card = styled.div`
     align-items: center;
     display: ${({ showButtons }: StyleProps) =>
       showButtons ? "flex" : "none"};
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 5px 10px;
     position: absolute;
     right: 0;
     top: 0;
-    width: 110px;
     > button {
       align-items: center;
       background: none;
@@ -72,6 +83,7 @@ const Card = styled.div`
       display: flex;
       height: 40px;
       justify-content: center;
+      margin-left: 8px;
       outline: none;
       transition: all 0.1s ease;
       width: 40px;
@@ -92,14 +104,18 @@ const Card = styled.div`
     width: 140px;
     object-fit: cover;
   }
-  &:after {
+  ${({ views }: StyleProps) =>
+    views !== undefined
+      ? `&:after {
     bottom: 0;
-    content: "Visto ${({ views }: StyleProps) => views} veces";
+    content: "Visto ${views} veces";
     font-size: 8px;
     padding: 5px 10px;
     position: absolute;
     right: 0;
-  }
+  }`
+      : ``}
+
   > div.data-container {
     display: flex;
     flex-direction: column;
