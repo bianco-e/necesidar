@@ -1,11 +1,16 @@
-import type { NextPage } from "next";
+import type { NextPage, NextPageContext } from "next";
 import Head from "next/head";
 import MainInput from "../components/MainInput";
 import ExploreMainButtons from "../components/ExploreMainButtons";
-import mocked_publications from "../mocked_publications.json";
 import Cards from "../components/Cards";
+import { PublicationData } from "../interfaces";
+import { getMostRecentUrgentNeeds } from "../database";
 
-const Explore: NextPage = () => {
+interface IProps {
+  urgentPublications?: PublicationData[];
+}
+
+const Explore: NextPage<IProps> = ({ urgentPublications }) => {
   return (
     <>
       <Head>
@@ -14,11 +19,31 @@ const Explore: NextPage = () => {
       <MainInput />
       <ExploreMainButtons />
       <Cards
-        publicationsData={mocked_publications.filter((p) => p.is_urgent)}
+        publicationsData={urgentPublications}
         title="Necesidades urgentes"
       />
     </>
   );
 };
+
+export async function getStaticProps(ctx: NextPageContext) {
+  try {
+    const urgentPublications = await getMostRecentUrgentNeeds();
+    return {
+      props: {
+        urgentPublications,
+      },
+      revalidate: 30,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      props: {
+        urgentPublications: null,
+      },
+      revalidate: 30,
+    };
+  }
+}
 
 export default Explore;

@@ -60,11 +60,11 @@ const Container = styled.div`
     text-align: end;
     width: ${({ theme }) => theme.desktop_container};
     > h1 {
-      font-size: 52px;
+      font-size: 48px;
     }
     > h2 {
       margin: 0;
-      font-size: 40px;
+      font-size: 36px;
     }
     > p {
       font-size: 30px;

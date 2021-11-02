@@ -2,13 +2,18 @@ import type { NextPage } from "next";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
 import Button from "../../components/Styled/Button";
-import mocked_publications from "../../mocked_publications.json";
+import { getPublicationsByUserId } from "../../database";
+import { PublicationData } from "../../interfaces";
 
-const ProfilePage: NextPage = () => {
+interface IProps {
+  myNeeds?: PublicationData[];
+}
+
+const ProfilePage: NextPage<IProps> = ({ myNeeds }) => {
   return (
     <Profile title="Mis Necesidades">
       <>
-        <MyPublicationsMenu publications={mocked_publications.slice(0, 3)} />
+        <MyPublicationsMenu publications={myNeeds} />
         <Button size="md" variant="needs" onClick={() => {}}>
           Agregar Necesidad
         </Button>
@@ -16,5 +21,23 @@ const ProfilePage: NextPage = () => {
     </Profile>
   );
 };
+
+export async function getStaticProps() {
+  try {
+    const myNeeds = await getPublicationsByUserId(10, 0);
+    return {
+      props: {
+        myNeeds,
+      },
+      revalidate: 30,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      props: { myNeeds: null },
+      revalidate: 30,
+    };
+  }
+}
 
 export default ProfilePage;

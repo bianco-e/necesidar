@@ -30,7 +30,7 @@ export default function CardSingleView({ data }: IProps) {
               <li>
                 <img alt="ubicacion" src="/icons/card-location-icon.png" />
                 <span>
-                  {data.location.city}, {data.location.province}
+                  {data.city}, {data.province}
                 </span>
               </li>
               <li>

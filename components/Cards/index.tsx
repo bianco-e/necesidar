@@ -3,7 +3,7 @@ import { PublicationData } from "../../interfaces";
 import Card from "./Card";
 
 interface IProps {
-  publicationsData: PublicationData[];
+  publicationsData?: PublicationData[];
   title?: string;
 }
 
@@ -11,11 +11,17 @@ export default function Cards({ publicationsData, title }: IProps) {
   return (
     <>
       {title ? <Title>{title}</Title> : null}
-      <CardsContainer>
-        {publicationsData.map((p) => (
-          <Card key={p.id} data={p} />
-        ))}
-      </CardsContainer>
+      {publicationsData ? (
+        <CardsContainer>
+          {publicationsData.length > 0 ? (
+            publicationsData.map((p) => <Card key={p.id} data={p} />)
+          ) : (
+            <span>No existen publicaciones para estos filtros</span>
+          )}
+        </CardsContainer>
+      ) : (
+        <span>Cargando...</span>
+      )}
     </>
   );
 }

@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export default function Card({ data }: IProps) {
-  const daysDiff = getDaysDifference(data.created_at, new Date().getTime());
+  const daysDiff = getDaysDifference(data.created_at, new Date().getTime()); // Math.round(Math.random() * 20);
   const { push } = useRouter();
 
   return (
@@ -28,7 +28,7 @@ export default function Card({ data }: IProps) {
         <li>
           <img alt="ubicacion" src="/icons/card-location-icon.png" />
           <span>
-            {data.location.city}, {data.location.province}
+            {data.city}, {data.province}
           </span>
         </li>
         <li>

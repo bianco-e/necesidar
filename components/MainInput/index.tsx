@@ -15,7 +15,7 @@ const VARIANTS = {
     push: "/donaciones?search=",
     placeholder: "Ej: Silla de ruedas",
     title: "Buscá lo que necesites",
-    width: "570px",
+    width: "520px",
   },
   donations: {
     borderColor: globalTheme.primary_green,
@@ -64,7 +64,7 @@ const Container = styled.div`
   flex-direction: column;
   margin-bottom: 50px;
   > h1 {
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 600;
     margin: 0 0 20px 0;
   }

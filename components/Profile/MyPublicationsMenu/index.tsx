@@ -4,7 +4,7 @@ import MyPublicationCard from "./MyPublicationCard";
 
 interface IProps {
   forFavorites?: boolean;
-  publications: PublicationData[];
+  publications?: PublicationData[];
 }
 
 export default function MyPublicationsMenu({
@@ -13,13 +13,21 @@ export default function MyPublicationsMenu({
 }: IProps) {
   return (
     <Wrapper>
-      {publications.map((publication) => (
-        <MyPublicationCard
-          key={publication.id}
-          forFavorites={forFavorites}
-          publication={publication}
-        />
-      ))}
+      {publications ? (
+        publications.length > 0 ? (
+          publications.map((publication) => (
+            <MyPublicationCard
+              key={publication.id}
+              forFavorites={forFavorites}
+              publication={publication}
+            />
+          ))
+        ) : (
+          <span>No tenes publicaciones</span>
+        )
+      ) : (
+        <span>Cargando...</span>
+      )}
     </Wrapper>
   );
 }

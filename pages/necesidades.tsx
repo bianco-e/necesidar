@@ -3,9 +3,14 @@ import Head from "next/head";
 import Cards from "../components/Cards";
 import DropdownFilters from "../components/DropdownFilters";
 import MainInput from "../components/MainInput";
-import mocked_publications from "../mocked_publications.json";
+import { getPublicationsByType } from "../database";
+import { PublicationData } from "../interfaces";
 
-const Needs: NextPage = () => {
+interface IProps {
+  needs?: PublicationData[];
+}
+
+const Needs: NextPage<IProps> = ({ needs }) => {
   return (
     <>
       <Head>
@@ -13,9 +18,29 @@ const Needs: NextPage = () => {
       </Head>
       <MainInput variant="needs" />
       <DropdownFilters variant="needs" />
-      <Cards publicationsData={mocked_publications} />
+      <Cards publicationsData={needs} />
     </>
   );
 };
+
+export async function getStaticProps() {
+  try {
+    const needs = await getPublicationsByType(0);
+    return {
+      props: {
+        needs,
+      },
+      revalidate: 10,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      props: {
+        needs: null,
+      },
+      revalidate: 10,
+    };
+  }
+}
 
 export default Needs;
