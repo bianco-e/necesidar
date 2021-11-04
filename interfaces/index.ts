@@ -15,3 +15,11 @@ export interface PublicationData {
   deleted_at?: number;
   requests_number: number;
 }
+
+export interface Geo {
+  id: string;
+  nombre: string;
+}
+export interface GeoData {
+  provincias: Geo[];
+}

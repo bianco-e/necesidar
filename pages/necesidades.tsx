@@ -17,7 +17,7 @@ const Needs: NextPage<IProps> = ({ needs }) => {
         <title>necesidar - Necesidades</title>
       </Head>
       <MainInput variant="needs" />
-      <DropdownFilters variant="needs" />
+      <DropdownFilters variant="needs" provinces={[]} />
       <Cards publicationsData={needs} />
     </>
   );

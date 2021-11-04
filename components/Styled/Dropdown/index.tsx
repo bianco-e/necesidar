@@ -5,16 +5,21 @@ import Button from "../Button";
 type Variant = "needs" | "donations";
 
 interface DropdownOption {
-  id: string;
+  name: string;
   onSelection: () => void;
 }
 
 interface IProps {
   options: DropdownOption[];
   variant: Variant;
+  width?: string;
 }
 
-export default function Dropdown({ variant = "needs", options }: IProps) {
+export default function Dropdown({
+  variant = "needs",
+  options,
+  width = "240px",
+}: IProps) {
   const [showingOption, setShowingOption] = useState<DropdownOption>(
     options[0]
   );
@@ -53,13 +58,13 @@ export default function Dropdown({ variant = "needs", options }: IProps) {
     <DropdownContainer variant={variant}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        fWeight={showingOption.id !== options[0].id ? "600" : "400"}
+        fWeight={showingOption.name !== options[0].name ? "600" : "400"}
         size="md"
         variant="dropdown"
-        width="240px"
+        width={width}
       >
         <>
-          {showingOption.id}
+          {showingOption.name}
           <img
             alt="flecha"
             className={isOpen ? "rotate" : ""}
@@ -70,8 +75,8 @@ export default function Dropdown({ variant = "needs", options }: IProps) {
       {isOpen ? (
         <div className="options-container" ref={dropdownRef}>
           {options.map((o) => (
-            <span key={o.id} onClick={() => handleSelection(o)}>
-              {o.id}
+            <span key={o.name} onClick={() => handleSelection(o)}>
+              {o.name}
             </span>
           ))}
         </div>
@@ -129,6 +134,8 @@ const DropdownContainer = styled.div`
       background: ${({ theme }) => theme.white};
       border-bottom: 1px solid ${({ theme }) => theme.gray};
       display: block;
+      min-height: 40px;
+      overflow: hidden;
       padding: 10px 20px;
       width: 100%;
       &:first-child {
@@ -146,7 +153,6 @@ const DropdownContainer = styled.div`
         }: StyleProps) =>
           variant === "needs" ? theme.primary_red : theme.primary_green};
         color: ${({ theme }) => theme.white};
-        font-weight: 600;
       }
     }
   }
