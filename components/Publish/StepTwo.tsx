@@ -45,7 +45,7 @@ export default function StepTwo({ setField, state }: IProps) {
             variant={state.publicationType === 1 ? "needs" : "donations"}
             options={[
               {
-                id: "Provincia",
+                name: "Provincia",
                 onSelection: () =>
                   setField("location", {
                     ...state.location,
@@ -61,7 +61,7 @@ export default function StepTwo({ setField, state }: IProps) {
             variant={state.publicationType === 1 ? "needs" : "donations"}
             options={[
               {
-                id: "Localidad",
+                name: "Localidad",
                 onSelection: () =>
                   setField("location", { ...state.location, city: "Rosario" }),
               },
@@ -74,7 +74,7 @@ export default function StepTwo({ setField, state }: IProps) {
             variant={state.publicationType === 1 ? "needs" : "donations"}
             options={[
               {
-                id: "Barrio",
+                name: "Barrio",
                 onSelection: () =>
                   setField("location", {
                     ...state.location,
@@ -97,11 +97,11 @@ export default function StepTwo({ setField, state }: IProps) {
             variant={state.publicationType === 1 ? "needs" : "donations"}
             options={[
               {
-                id: "Seleccione",
+                name: "Seleccione",
                 onSelection: () => setField("can_move", undefined),
               },
-              { id: "Si", onSelection: () => setField("can_move", true) },
-              { id: "No", onSelection: () => setField("can_move", false) },
+              { name: "Si", onSelection: () => setField("can_move", true) },
+              { name: "No", onSelection: () => setField("can_move", false) },
             ]}
           />
         </div>
@@ -111,12 +111,12 @@ export default function StepTwo({ setField, state }: IProps) {
             variant={state.publicationType === 1 ? "needs" : "donations"}
             options={[
               {
-                id: "Seleccione",
+                name: "Seleccione",
                 onSelection: () => setField("urgency", undefined),
               },
-              { id: "Alto", onSelection: () => setField("urgency", 1) },
-              { id: "Medio", onSelection: () => setField("urgency", 2) },
-              { id: "Bajo", onSelection: () => setField("urgency", 3) },
+              { name: "Alto", onSelection: () => setField("urgency", 1) },
+              { name: "Medio", onSelection: () => setField("urgency", 2) },
+              { name: "Bajo", onSelection: () => setField("urgency", 3) },
             ]}
           />
         </div>

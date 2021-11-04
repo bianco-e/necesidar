@@ -10,21 +10,21 @@ export default function ConfigurationMenu() {
         <p>Provincia</p>
         <Dropdown
           variant="donations"
-          options={[{ id: "Provincia", onSelection: () => {} }]}
+          options={[{ name: "Provincia", onSelection: () => {} }]}
         />
       </div>
       <div className="menu-field">
         <p>Localidad</p>
         <Dropdown
           variant="donations"
-          options={[{ id: "Localidad", onSelection: () => {} }]}
+          options={[{ name: "Localidad", onSelection: () => {} }]}
         />
       </div>
       <div className="menu-field">
         <p>Barrio</p>
         <Dropdown
           variant="donations"
-          options={[{ id: "Barrio", onSelection: () => {} }]}
+          options={[{ name: "Barrio", onSelection: () => {} }]}
         />
       </div>
       <div className="menu-field">
@@ -42,8 +42,8 @@ export default function ConfigurationMenu() {
         <Dropdown
           variant="donations"
           options={[
-            { id: "Si", onSelection: () => {} },
-            { id: "No", onSelection: () => {} },
+            { name: "Si", onSelection: () => {} },
+            { name: "No", onSelection: () => {} },
           ]}
         />
       </div>
