@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
 import Button from "../../components/Styled/Button";
-import { getPublicationsByUserId } from "../../database";
+import PublicationsController from "../../database/controllers/Publications.controllers";
 import { PublicationData } from "../../interfaces";
 
 interface IProps {
@@ -24,7 +24,7 @@ const ProfilePage: NextPage<IProps> = ({ myNeeds }) => {
 
 export async function getStaticProps() {
   try {
-    const myNeeds = await getPublicationsByUserId(10, 0);
+    const myNeeds = await PublicationsController.getPublicationsByUserId(10, 0);
     return {
       props: {
         myNeeds,

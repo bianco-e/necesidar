@@ -3,7 +3,7 @@ import Head from "next/head";
 import MainInput from "../components/MainInput";
 import DropdownFilters from "../components/DropdownFilters";
 import Cards from "../components/Cards";
-import { getPublicationsByType } from "../database";
+import PublicationsController from "../database/controllers/Publications.controllers";
 import { PublicationData } from "../interfaces";
 
 interface IProps {
@@ -25,7 +25,7 @@ const Donations: NextPage<IProps> = ({ donations }) => {
 
 export async function getStaticProps(ctx: NextPageContext) {
   try {
-    const donations = await getPublicationsByType(1);
+    const donations = await PublicationsController.getPublicationsByType(1);
     return {
       props: {
         donations,

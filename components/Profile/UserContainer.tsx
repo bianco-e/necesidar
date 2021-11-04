@@ -8,7 +8,7 @@ export default function UserContainer() {
     <Wrapper>
       <Container>
         <img
-          alt=""
+          alt="User Name"
           className="user-avatar"
           src="https://definicionde.es/wp-content/uploads/2019/04/definicion-de-persona-min.jpg"
         />

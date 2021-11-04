@@ -7,7 +7,7 @@ export default function MainHero() {
   const { push } = useRouter();
   return (
     <Container>
-      <img src="/images/hero-hands-image.png" alt="manos tendidas" />
+      <img alt="manos tendidas" src="/images/hero-hands-image.png" />
 
       <div className="content">
         <h1>¡Publicá en necesidar!</h1>

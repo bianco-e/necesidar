@@ -1,7 +1,7 @@
 import type { GetStaticPaths, NextPage, NextPageContext } from "next";
 import Cards from "../../components/Cards";
 import CardSingleView from "../../components/CardSingleView";
-import { getPublicationById, getAllPublicationsIds } from "../../database";
+import PublicationsController from "../../database/controllers/Publications.controllers";
 import { PublicationData } from "../../interfaces";
 
 interface IProps {
@@ -27,7 +27,9 @@ const Id: NextPage<IProps> = ({ currentPublication, similarPublications }) => {
 
 export const getStaticProps = async ({ params }: MyPageContext) => {
   try {
-    const currentPublication = await getPublicationById(params.id);
+    const currentPublication = await PublicationsController.getPublicationById(
+      params.id
+    );
     return {
       props: { currentPublication, similarPublications: [] },
       revalidate: 120,
@@ -45,7 +47,7 @@ export const getStaticProps = async ({ params }: MyPageContext) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
-    const ids = await getAllPublicationsIds();
+    const ids = await PublicationsController.getAllPublicationsIds();
     const paths = ids
       ? ids.map(({ id }: { id: number }) => ({
           params: { id: id.toString() },

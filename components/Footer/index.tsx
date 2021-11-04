@@ -17,7 +17,10 @@ export default function Footer() {
           <a>Sugerir cambios</a>
         </Link>
         <a href="https://www.twitter.com" target="_blank">
-          <img src="https://i.pinimg.com/originals/c1/7f/11/c17f11f39dd7df48f8b54604b1745ee7.png" />
+          <img
+            alt="twitter"
+            src="https://i.pinimg.com/originals/c1/7f/11/c17f11f39dd7df48f8b54604b1745ee7.png"
+          />
         </a>
       </FooterContainer>
     </FooterWrapper>

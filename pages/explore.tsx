@@ -4,7 +4,7 @@ import MainInput from "../components/MainInput";
 import ExploreMainButtons from "../components/ExploreMainButtons";
 import Cards from "../components/Cards";
 import { PublicationData } from "../interfaces";
-import { getMostRecentUrgentNeeds } from "../database";
+import PublicationsController from "../database/controllers/Publications.controllers";
 
 interface IProps {
   urgentPublications?: PublicationData[];
@@ -28,7 +28,8 @@ const Explore: NextPage<IProps> = ({ urgentPublications }) => {
 
 export async function getStaticProps(ctx: NextPageContext) {
   try {
-    const urgentPublications = await getMostRecentUrgentNeeds();
+    const urgentPublications =
+      await PublicationsController.getMostRecentUrgentNeeds();
     return {
       props: {
         urgentPublications,
