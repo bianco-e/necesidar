@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { PublicationData } from "../../interfaces";
 import Card from "./Card";
+import LoadingCard from "./LoadingCard";
 
 interface IProps {
   publicationsData?: PublicationData[];
@@ -20,7 +21,11 @@ export default function Cards({ publicationsData, title }: IProps) {
           )}
         </CardsContainer>
       ) : (
-        <span>Cargando...</span>
+        <CardsContainer>
+          {new Array(6).fill("").map((_, i) => (
+            <LoadingCard key={i} />
+          ))}
+        </CardsContainer>
       )}
     </>
   );

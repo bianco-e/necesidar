@@ -55,7 +55,7 @@ interface StyleProps {
   isUrgent?: boolean;
 }
 
-const CardContainer = styled.div`
+export const CardContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.gray};
   border-radius: 10px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
