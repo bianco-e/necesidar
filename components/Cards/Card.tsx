@@ -17,7 +17,7 @@ export default function Card({ data }: IProps) {
         <img alt={data.title} src={data.images[0]} />
       </CardImage>
       <h3 title={data.title}>{ellipseText(data.title, 27)}</h3>
-      <p>{ellipseText(data.description, 120)}</p>
+      <p>{ellipseText(data.description, 85)}</p>
       <ul>
         <li className={data.can_move ? "" : "overline"}>
           <img alt="movilidad" src="/icons/card-car-icon.png" />
@@ -55,13 +55,13 @@ interface StyleProps {
 }
 
 export const CardContainer = styled.div`
-  border: 1px solid ${({ theme }) => theme.gray};
   border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.not_white};
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  height: 480px;
+  height: 430px;
   padding: 25px;
   width: calc(33% - 20px);
   transition: all 0.2s ease;
@@ -70,13 +70,14 @@ export const CardContainer = styled.div`
   }
   > p {
     font-size: 14px;
-    margin: 0 0 14px 0;
-    height: 67px;
+    margin: 0 0 5px 0;
+    height: 37px;
     overflow: hidden;
   }
   > ul {
     font-size: 12px;
     list-style-type: none;
+    margin: 5px 0;
     padding: 0;
     > li {
       align-items: center;
@@ -120,12 +121,12 @@ export const CardContainer = styled.div`
 
 const CardImage = styled.div`
   border-radius: 10px;
-  height: 230px;
-  overflow: hidden;
+  height: 160px;
   position: relative;
   width: 100%;
   > img {
-    height: 230px;
+    border-radius: 10px;
+    height: 160px;
     object-fit: cover;
     width: 100%;
   }

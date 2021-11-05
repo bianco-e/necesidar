@@ -44,11 +44,10 @@ export default function CardSingleView({ data }: IProps) {
                 </span>
               </li>
               <li className="user-data">
-                <img
-                  alt={data.user_id}
-                  src="https://definicionde.es/wp-content/uploads/2019/04/definicion-de-persona-min.jpg"
-                />
-                <p>Jorgelina Perez Desantis</p>
+                <img alt={data.user_first_name} src={data.user_avatar} />
+                <p>
+                  {data.user_first_name}, {data.user_last_name}
+                </p>
               </li>
             </ul>
 

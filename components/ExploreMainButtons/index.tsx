@@ -26,14 +26,12 @@ export default function ExploreMainButtons() {
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 20px auto 50px auto;
+  margin: 0 auto 30px auto;
   width: ${({ theme }) => theme.desktop_container};
   > a {
     align-items: center;
     background: none;
-    border: 1px solid ${({ theme }) => theme.gray};
     border-radius: 10px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     display: flex;
     flex-direction: column;

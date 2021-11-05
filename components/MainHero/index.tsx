@@ -45,13 +45,15 @@ const Container = styled.div`
   background: rgb(255, 124, 112, 0.4);
   color: ${({ theme }) => theme.white};
   display: flex;
-  min-height: 830px;
+  min-height: 550px;
+  overflow: hidden;
   position: relative;
   width: 100%;
   > img {
-    height: 830px;
+    height: 550px;
     left: 0;
     position: absolute;
+    object-fit: cover;
     width: 830px;
   }
   > div.content {
