@@ -6,16 +6,36 @@ import Head from "next/head";
 import MainInput from "../components/MainInput";
 import PublicationsController from "../database/controllers/Publications.controllers";
 import useFilters from "../hooks/useFilters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
-  donations?: PublicationData[];
+  initialDonations?: PublicationData[];
   provinces: GeoData;
 }
 
-const Donations: NextPage<IProps> = ({ donations, provinces }) => {
+const Donations: NextPage<IProps> = ({ initialDonations, provinces }) => {
+  const [donations, setDonations] = useState<PublicationData[] | undefined>(
+    initialDonations
+  );
   const [inputValue, setInputValue] = useState<string>("");
   const { setField, state } = useFilters();
+
+  useEffect(() => {
+    const body = JSON.stringify({
+      filters: state,
+      publication_type: 1,
+    });
+    fetch("/api/publications/filter", {
+      method: "POST",
+      body,
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response) return setDonations(response);
+        return setDonations([]);
+      })
+      .catch((e) => console.error(e));
+  }, [state]);
 
   return (
     <>
@@ -45,10 +65,12 @@ export async function getStaticProps() {
       "https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre"
     );
     const provinces = await provincesResponse.json();
-    const donations = await PublicationsController.getPublicationsByType(1);
+    const initialDonations = await PublicationsController.getPublicationsByType(
+      1
+    );
     return {
       props: {
-        donations,
+        initialDonations,
         provinces,
       },
       revalidate: 50,
@@ -57,7 +79,7 @@ export async function getStaticProps() {
     console.error(e);
     return {
       props: {
-        donations: null,
+        initialDonations: null,
         provinces: null,
       },
     };
