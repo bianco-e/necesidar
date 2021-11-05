@@ -1,5 +1,5 @@
 import type { Geo } from "../../interfaces";
-import type { FiltersState } from "../../hooks/useFilters";
+import type { PublicationsFilters } from "../../interfaces";
 import styled from "styled-components";
 import Dropdown from "../Styled/Dropdown";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ interface IProps {
   variant: "needs" | "donations";
   provinces: Geo[];
   setField: (p: string, v?: string) => void;
-  state: FiltersState;
+  state: PublicationsFilters;
 }
 
 const CATEGORIES = [

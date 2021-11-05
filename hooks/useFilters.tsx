@@ -1,3 +1,4 @@
+import type { PublicationsFilters } from "../interfaces";
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
@@ -5,18 +6,11 @@ const SET_FIELD = "SET_FIELD";
 const SET_SLICE = "SET_SLICE";
 const RESET_STATE = "RESET_STATE";
 
-export interface FiltersState {
-  province: string;
-  city: string;
-  category: string;
-  searchValue: string;
-}
-
-const initialState: FiltersState = {
+const initialState: PublicationsFilters = {
   province: "",
   city: "",
   category: "",
-  searchValue: "",
+  title: "",
 };
 
 const reducer = (
@@ -71,7 +65,7 @@ export default function useFilters() {
       const query = querify(Object.entries(state));
       router.push({ search: query });
     } else router.push({ search: "" });
-  }, [state.province, state.city, state.category, state.searchValue]);
+  }, [state.province, state.city, state.category, state.title]);
 
   return { setField, state };
 }

@@ -26,7 +26,7 @@ const Donations: NextPage<IProps> = ({ donations, provinces }) => {
         value={inputValue}
         valueSetter={setInputValue}
         variant="donations"
-        onEnterDown={(v) => setField("searchValue", inputValue)}
+        onEnterDown={(v) => setField("title", inputValue)}
       />
       <DropdownFilters
         variant="donations"
@@ -51,7 +51,7 @@ export async function getStaticProps() {
         donations,
         provinces,
       },
-      revalidate: 20,
+      revalidate: 50,
     };
   } catch (e) {
     console.error(e);

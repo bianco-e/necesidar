@@ -6,16 +6,36 @@ import Head from "next/head";
 import MainInput from "../components/MainInput";
 import PublicationsController from "../database/controllers/Publications.controllers";
 import useFilters from "../hooks/useFilters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
-  needs?: PublicationData[];
+  initialNeeds?: PublicationData[];
   provinces: GeoData;
 }
 
-const Needs: NextPage<IProps> = ({ needs, provinces }) => {
+const Needs: NextPage<IProps> = ({ initialNeeds, provinces }) => {
+  const [needs, setNeeds] = useState<PublicationData[] | undefined>(
+    initialNeeds
+  );
   const [inputValue, setInputValue] = useState<string>("");
   const { setField, state } = useFilters();
+
+  useEffect(() => {
+    const body = JSON.stringify({
+      filters: state,
+      publication_type: 0,
+    });
+    fetch("/api/publications/filter", {
+      method: "POST",
+      body,
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response) return setNeeds(response);
+        return setNeeds([]);
+      })
+      .catch((e) => console.error(e));
+  }, [state]);
 
   return (
     <>
@@ -26,7 +46,7 @@ const Needs: NextPage<IProps> = ({ needs, provinces }) => {
         value={inputValue}
         valueSetter={setInputValue}
         variant="needs"
-        onEnterDown={(v) => setField("searchValue", inputValue)}
+        onEnterDown={(v) => setField("title", inputValue)}
       />
       <DropdownFilters
         variant="needs"
@@ -45,21 +65,20 @@ export async function getStaticProps() {
       "https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre"
     );
     const provinces = await provincesResponse.json();
-    const needs = await PublicationsController.getPublicationsByType(0);
+    const initialNeeds = await PublicationsController.getPublicationsByType(0);
     return {
       props: {
-        needs,
+        initialNeeds,
         provinces,
       },
-      revalidate: 10,
+      revalidate: 50,
     };
   } catch (e) {
     console.error(e);
     return {
       props: {
-        needs: null,
+        initialNeeds: null,
       },
-      revalidate: 10,
     };
   }
 }

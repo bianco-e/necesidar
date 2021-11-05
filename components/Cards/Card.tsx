@@ -41,11 +41,10 @@ export default function Card({ data }: IProps) {
         </li>
       </ul>
       <div className="user-data">
-        <span>Jorgelina Perez Desantis</span>
-        <img
-          alt={data.user_id}
-          src="https://definicionde.es/wp-content/uploads/2019/04/definicion-de-persona-min.jpg"
-        />
+        <span>
+          {data.user_first_name}, {data.user_last_name}
+        </span>
+        <img alt={data.user_first_name} src={data.user_avatar} />
       </div>
     </CardContainer>
   );
