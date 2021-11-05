@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { ellipseText } from "../../../utils/helpers";
 import Button from "../Button";
 
 type Variant = "needs" | "donations";
@@ -10,12 +11,16 @@ interface DropdownOption {
 }
 
 interface IProps {
+  disabled?: boolean;
+  initialValue?: string;
   options: DropdownOption[];
   variant: Variant;
   width?: string;
 }
 
 export default function Dropdown({
+  disabled = false,
+  initialValue,
   variant = "needs",
   options,
   width = "240px",
@@ -24,6 +29,12 @@ export default function Dropdown({
     options[0]
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialValue) {
+      setShowingOption({ name: initialValue, onSelection: () => {} });
+    } else setShowingOption(options[0]);
+  }, [initialValue]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +68,7 @@ export default function Dropdown({
   return (
     <DropdownContainer variant={variant}>
       <Button
+        disabled={disabled}
         onClick={() => setIsOpen(!isOpen)}
         fWeight={showingOption.name !== options[0].name ? "600" : "400"}
         size="md"
@@ -64,7 +76,7 @@ export default function Dropdown({
         width={width}
       >
         <>
-          {showingOption.name}
+          {ellipseText(showingOption.name, 13)}
           <img
             alt="flecha"
             className={isOpen ? "rotate" : ""}

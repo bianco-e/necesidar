@@ -5,18 +5,21 @@ import ExploreMainButtons from "../components/ExploreMainButtons";
 import Cards from "../components/Cards";
 import { PublicationData } from "../interfaces";
 import PublicationsController from "../database/controllers/Publications.controllers";
+import { useState } from "react";
 
 interface IProps {
   urgentPublications?: PublicationData[];
 }
 
 const Explore: NextPage<IProps> = ({ urgentPublications }) => {
+  const [inputValue, setInputValue] = useState<string>("");
+
   return (
     <>
       <Head>
         <title>necesidar - Explorar</title>
       </Head>
-      <MainInput />
+      <MainInput value={inputValue} valueSetter={setInputValue} />
       <ExploreMainButtons />
       <Cards
         publicationsData={urgentPublications}

@@ -20,14 +20,16 @@ export default function MainHero() {
         </p>
         <div className="buttons-container">
           <Link href="/explore">
-            <Button
-              onClick={() => push("/explore")}
-              size="md"
-              variant="primary"
-              width="180px"
-            >
-              Explorar
-            </Button>
+            <a>
+              <Button
+                onClick={() => push("/explore")}
+                size="md"
+                variant="primary"
+                width="180px"
+              >
+                Explorar
+              </Button>
+            </a>
           </Link>
           <Button onClick={() => {}} size="md" variant="needs" width="180px">
             Ingresar

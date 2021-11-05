@@ -16,7 +16,7 @@ export default function Cards({ publicationsData, title }: IProps) {
           {publicationsData.length > 0 ? (
             publicationsData.map((p) => <Card key={p.id} data={p} />)
           ) : (
-            <span>No existen publicaciones para estos filtros</span>
+            <span>No existen publicaciones que coincidan</span>
           )}
         </CardsContainer>
       ) : (

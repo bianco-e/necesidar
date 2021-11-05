@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
+import type { GeoData, PublicationData } from "../interfaces";
+import Cards from "../components/Cards";
+import DropdownFilters from "../components/DropdownFilters";
 import Head from "next/head";
 import MainInput from "../components/MainInput";
-import DropdownFilters from "../components/DropdownFilters";
-import Cards from "../components/Cards";
 import PublicationsController from "../database/controllers/Publications.controllers";
-import { GeoData, PublicationData } from "../interfaces";
+import useFilters from "../hooks/useFilters";
+import { useState } from "react";
 
 interface IProps {
   donations?: PublicationData[];
@@ -12,13 +14,26 @@ interface IProps {
 }
 
 const Donations: NextPage<IProps> = ({ donations, provinces }) => {
+  const [inputValue, setInputValue] = useState<string>("");
+  const { setField, state } = useFilters();
+
   return (
     <>
       <Head>
         <title>necesidar - Donaciones</title>
       </Head>
-      <MainInput variant="donations" />
-      <DropdownFilters variant="donations" provinces={provinces.provincias} />
+      <MainInput
+        value={inputValue}
+        valueSetter={setInputValue}
+        variant="donations"
+        onEnterDown={(v) => setField("searchValue", inputValue)}
+      />
+      <DropdownFilters
+        variant="donations"
+        provinces={provinces.provincias}
+        setField={setField}
+        state={state}
+      />
       <Cards publicationsData={donations} />
     </>
   );

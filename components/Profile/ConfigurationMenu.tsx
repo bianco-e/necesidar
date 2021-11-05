@@ -21,13 +21,6 @@ export default function ConfigurationMenu() {
         />
       </div>
       <div className="menu-field">
-        <p>Barrio</p>
-        <Dropdown
-          variant="donations"
-          options={[{ name: "Barrio", onSelection: () => {} }]}
-        />
-      </div>
-      <div className="menu-field">
         <p>Teléfono</p>
         <Input
           borderColor="#c7c7c7"

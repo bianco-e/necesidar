@@ -23,3 +23,8 @@ export interface Geo {
 export interface GeoData {
   provincias: Geo[];
 }
+
+export interface SelectedFilter {
+  id: string;
+  name: string;
+}

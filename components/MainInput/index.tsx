@@ -6,6 +6,9 @@ import { checkKeyDown } from "../../utils/helpers";
 import { useRouter } from "next/router";
 
 interface IProps {
+  onEnterDown?: (v: string) => void;
+  valueSetter: (s: string) => void;
+  value: string;
   variant?: "default" | "donations" | "needs";
 }
 
@@ -33,8 +36,12 @@ const VARIANTS = {
   },
 };
 
-export default function MainInput({ variant = "default" }: IProps) {
-  const [inputValue, setInputValue] = useState<string>("");
+export default function MainInput({
+  onEnterDown,
+  valueSetter,
+  value,
+  variant = "default",
+}: IProps) {
   const { push } = useRouter();
 
   return (
@@ -42,15 +49,17 @@ export default function MainInput({ variant = "default" }: IProps) {
       <h1>{VARIANTS[variant].title}</h1>
       <Input
         borderColor={VARIANTS[variant].borderColor}
-        onChange={(v) => setInputValue(v)}
+        onChange={(v) => valueSetter(v)}
         onKeyDown={(e: React.KeyboardEvent) =>
           checkKeyDown(e, "Enter", () => {
             const target = e.target as HTMLInputElement;
-            push(`${VARIANTS[variant].push}${target.value}`);
+            onEnterDown
+              ? onEnterDown(target.value)
+              : push(`${VARIANTS[variant].push}${target.value}`);
           })
         }
         placeholder={VARIANTS[variant].placeholder}
-        value={inputValue}
+        value={value}
         width={VARIANTS[variant].width}
       />
     </Container>

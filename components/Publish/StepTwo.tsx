@@ -16,7 +16,6 @@ export default function StepTwo({ setField, state }: IProps) {
   const fieldsForValidation = [
     state.location.province,
     state.location.city,
-    state.location.neighborhood,
     state.can_move,
     state.urgency,
     state.email,
@@ -64,22 +63,6 @@ export default function StepTwo({ setField, state }: IProps) {
                 name: "Localidad",
                 onSelection: () =>
                   setField("location", { ...state.location, city: "Rosario" }),
-              },
-            ]}
-          />
-        </div>
-        <div className="sub-container">
-          <p>Barrio</p>
-          <Dropdown
-            variant={state.publicationType === 1 ? "needs" : "donations"}
-            options={[
-              {
-                name: "Barrio",
-                onSelection: () =>
-                  setField("location", {
-                    ...state.location,
-                    neighborhood: "San Martin",
-                  }),
               },
             ]}
           />

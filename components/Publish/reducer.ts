@@ -9,7 +9,6 @@ export interface PublishState {
   location: {
     province: string;
     city: string;
-    neighborhood: string;
   };
   urgency?: number;
   can_move?: boolean;
@@ -26,7 +25,6 @@ export const initialState: PublishState = {
   location: {
     province: "",
     city: "",
-    neighborhood: "",
   },
   urgency: undefined,
   can_move: undefined,
