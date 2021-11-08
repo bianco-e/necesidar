@@ -16,6 +16,7 @@ export default async function handler(
       res.status(200).json(JSON.stringify(response));
     } catch (e) {
       console.error("Error getting filtered publications =>", e);
+      res.status(500).send(e);
     }
   }
 }

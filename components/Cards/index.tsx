@@ -17,7 +17,9 @@ export default function Cards({ publicationsData, title }: IProps) {
           {publicationsData.length > 0 ? (
             publicationsData.map((p) => <Card key={p.id} data={p} />)
           ) : (
-            <span>No existen publicaciones que coincidan</span>
+            <span className="no-publications-msg">
+              No existen publicaciones que coincidan
+            </span>
           )}
         </CardsContainer>
       ) : (
@@ -43,4 +45,8 @@ const CardsContainer = styled.div`
   justify-content: space-between;
   margin: 0 auto 50px auto;
   width: ${({ theme }) => theme.desktop_container};
+  > .no-publications-msg {
+    font-size: 18px;
+    margin: 0 auto;
+  }
 `;

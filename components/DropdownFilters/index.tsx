@@ -5,10 +5,12 @@ import Dropdown from "../Styled/Dropdown";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { capitalizeString } from "../../utils/helpers";
+import Button from "../Styled/Button";
 
 interface IProps {
   variant: "needs" | "donations";
   provinces: Geo[];
+  resetState: () => void;
   setField: (p: string, v?: string) => void;
   state: PublicationsFilters;
 }
@@ -20,6 +22,22 @@ const CATEGORIES = [
   { name: "Tratamiento", id: "4" },
   { name: "Otra", id: "5" },
 ];
+
+const fetchCities = (setter: (data: Geo[]) => void, id: string) => {
+  const route = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${id}&campos=id,nombre&max=350`;
+  fetch(route)
+    .then((res) => res.json())
+    .then((res) => {
+      if (res)
+        return setter(
+          res.localidades.map((l: Geo) => ({
+            ...l,
+            nombre: capitalizeString(l.nombre),
+          }))
+        );
+      return setter([]);
+    });
+};
 
 const parseGeoData = (
   firstElement: { name: string; onSelection: () => void },
@@ -45,14 +63,15 @@ const parseGeoData = (
 
 export default function DropdownFilters({
   provinces,
-  variant,
+  resetState,
   setField,
   state,
+  variant,
 }: IProps) {
   const [selectedProvinceId, setSelectedProvinceId] = useState<string>();
   const [cities, setCities] = useState<Geo[]>([]);
 
-  const { push } = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (state.province && !selectedProvinceId) {
@@ -64,81 +83,109 @@ export default function DropdownFilters({
   }, [state.province, selectedProvinceId]);
 
   useEffect(() => {
-    if (selectedProvinceId) {
-      const route = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${selectedProvinceId}&campos=id,nombre&max=350`;
-      fetch(route)
-        .then((res) => res.json())
-        .then((res) => {
-          if (res)
-            return setCities(
-              res.localidades.map((l: Geo) => ({
-                ...l,
-                nombre: capitalizeString(l.nombre),
-              }))
-            );
-          return setCities([]);
-        });
+    if (selectedProvinceId !== undefined) {
+      fetchCities(setCities, selectedProvinceId);
     } else {
-      setField("city", undefined);
+      setField("city", "");
       setCities([]);
     }
   }, [selectedProvinceId]);
 
   const TYPE_OPTIONS = [
-    { name: "Necesidades", onSelection: () => push("necesidades") },
-    { name: "Donaciones", onSelection: () => push("donaciones") },
+    { name: "Necesidades", onSelection: () => router.push("necesidades") },
+    { name: "Donaciones", onSelection: () => router.push("donaciones") },
   ];
 
   const PROVINCES_OPTIONS = parseGeoData(
     {
       name: "Provincia",
-      onSelection: () => setField("province", undefined),
+      onSelection: () => {
+        setField("province", undefined);
+        setSelectedProvinceId(undefined);
+      },
     },
     provinces,
-    (n, id) => setField("province", n)
+    (n, id) => {
+      setField("province", n);
+      setSelectedProvinceId(id);
+    }
   );
 
+  const handleCopyUrl = () => {
+    if (process.browser) {
+      const currentUrl = `${window.origin}${router.asPath}`;
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        console.log("Copied", currentUrl);
+      });
+    }
+  };
+
   return (
-    <Container>
-      <Dropdown
-        variant={variant}
-        width="230px"
-        options={variant === "needs" ? TYPE_OPTIONS : TYPE_OPTIONS.reverse()}
-      />
-      <Dropdown
-        initialValue={state.category}
-        variant={variant}
-        width="230px"
-        options={[
-          {
-            name: "Categoría",
-            onSelection: () => setField("category", undefined),
-          },
-        ].concat(
-          CATEGORIES.map((c) => ({
-            ...c,
-            onSelection: () => setField("category", c.name),
-          }))
-        )}
-      />
-      <Dropdown
-        initialValue={state.province}
-        variant={variant}
-        width="230px"
-        options={PROVINCES_OPTIONS}
-      />
-      <Dropdown
-        disabled={cities.length < 1}
-        initialValue={state.city}
-        variant={variant}
-        width="230px"
-        options={parseGeoData(
-          { name: "Localidad", onSelection: () => setField("city", undefined) },
-          cities,
-          (n) => setField("city", n)
-        )}
-      />
-    </Container>
+    <>
+      <Container>
+        <Dropdown
+          variant={variant}
+          width="230px"
+          options={variant === "needs" ? TYPE_OPTIONS : TYPE_OPTIONS.reverse()}
+        />
+        <Dropdown
+          initialValue={state.category}
+          variant={variant}
+          width="230px"
+          options={[
+            {
+              name: "Categoría",
+              onSelection: () => setField("category", undefined),
+            },
+          ].concat(
+            CATEGORIES.map((c) => ({
+              ...c,
+              onSelection: () => setField("category", c.name),
+            }))
+          )}
+        />
+        <Dropdown
+          initialValue={state.province}
+          variant={variant}
+          width="230px"
+          options={PROVINCES_OPTIONS}
+        />
+        <Dropdown
+          disabled={cities.length < 1}
+          initialValue={state.city}
+          variant={variant}
+          width="230px"
+          options={parseGeoData(
+            {
+              name: "Localidad",
+              onSelection: () => setField("city", undefined),
+            },
+            cities,
+            (n) => setField("city", n)
+          )}
+        />
+      </Container>
+      <Container>
+        <Button onClick={handleCopyUrl} size="sm" variant={variant}>
+          <>
+            <span>Copiar link</span>
+            <img
+              height="35"
+              width="35"
+              src={`/icons/nd-link-icon-${variant}.png`}
+              alt="copiar"
+            />
+          </>
+        </Button>
+        <Button
+          onClick={resetState}
+          size="sm"
+          variant={variant === "needs" ? "primary" : "secondary"}
+        >
+          Limpiar filtros
+        </Button>
+      </Container>
+    </>
   );
 }
 

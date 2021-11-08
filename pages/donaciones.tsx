@@ -6,7 +6,7 @@ import Head from "next/head";
 import MainInput from "../components/MainInput";
 import PublicationsController from "../database/controllers/Publications.controllers";
 import useFilters from "../hooks/useFilters";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IProps {
   initialDonations?: PublicationData[];
@@ -18,24 +18,7 @@ const Donations: NextPage<IProps> = ({ initialDonations, provinces }) => {
     initialDonations
   );
   const [inputValue, setInputValue] = useState<string>("");
-  const { setField, state } = useFilters();
-
-  useEffect(() => {
-    const body = JSON.stringify({
-      filters: state,
-      publication_type: 1,
-    });
-    fetch("/api/publications/filter", {
-      method: "POST",
-      body,
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        if (response) return setDonations(response);
-        return setDonations([]);
-      })
-      .catch((e) => console.error(e));
-  }, [state]);
+  const { resetState, setField, state } = useFilters(setDonations, 1);
 
   return (
     <>
@@ -51,6 +34,7 @@ const Donations: NextPage<IProps> = ({ initialDonations, provinces }) => {
       <DropdownFilters
         variant="donations"
         provinces={provinces.provincias}
+        resetState={resetState}
         setField={setField}
         state={state}
       />

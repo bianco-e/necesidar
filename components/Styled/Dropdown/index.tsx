@@ -86,8 +86,8 @@ export default function Dropdown({
       </Button>
       {isOpen ? (
         <div className="options-container" ref={dropdownRef}>
-          {options.map((o) => (
-            <span key={o.name} onClick={() => handleSelection(o)}>
+          {options.map((o, i) => (
+            <span key={`${o.name}-${i}`} onClick={() => handleSelection(o)}>
               {o.name}
             </span>
           ))}

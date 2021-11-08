@@ -1,10 +1,13 @@
-import type { PublicationsFilters } from "../interfaces";
+import type { PublicationData, PublicationsFilters } from "../interfaces";
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
 const SET_FIELD = "SET_FIELD";
 const SET_SLICE = "SET_SLICE";
 const RESET_STATE = "RESET_STATE";
+
+type Setter = (data: PublicationData[] | undefined) => void;
+type PublicationType = number;
 
 const initialState: PublicationsFilters = {
   province: "",
@@ -15,7 +18,7 @@ const initialState: PublicationsFilters = {
 
 const reducer = (
   state = initialState,
-  action: { type: string; payload: any }
+  action: { type: string; payload?: any }
 ) => {
   switch (action.type) {
     case SET_FIELD:
@@ -37,20 +40,40 @@ const querify = (values: string[][]): string =>
     )
     .join("");
 
-export default function useFilters() {
+export default function useFilters(
+  setter: Setter,
+  publicationType: PublicationType
+) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const router = useRouter();
 
-  const setField = (field: string, value?: string) => {
+  const resetState = () => dispatch({ type: RESET_STATE });
+
+  const setField = (field: string, value?: string) =>
     dispatch({ type: SET_FIELD, payload: { field, value } });
+
+  const fetchWithFilters = () => {
+    const body = JSON.stringify({
+      filters: state,
+      publication_type: publicationType,
+    });
+    fetch("/api/publications/filter", {
+      method: "POST",
+      body,
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response) return setter(response);
+        return setter([]);
+      })
+      .catch((e) => console.error(e));
   };
 
   useEffect(() => {
     const parsedQuery = Object.entries(router.query).reduce(
       (acc, [fieldName, value]) => {
-        if (state[fieldName] === "" || state[fieldName] !== value) {
+        if (state[fieldName] === "" || state[fieldName] !== value)
           return { ...acc, [fieldName]: value };
-        }
         return acc;
       },
       {}
@@ -61,11 +84,12 @@ export default function useFilters() {
   }, [router.query]);
 
   useEffect(() => {
+    fetchWithFilters();
     if (Object.values(state).some((f) => f)) {
       const query = querify(Object.entries(state));
       router.push({ search: query });
     } else router.push({ search: "" });
   }, [state.province, state.city, state.category, state.title]);
 
-  return { setField, state };
+  return { resetState, setField, state };
 }
