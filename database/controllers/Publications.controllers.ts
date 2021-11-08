@@ -18,7 +18,6 @@ export default class PublicationsController {
          ORDER BY p.created_at desc
          LIMIT 6`
       );
-      console.log("res", res);
       return mapResponse(res.rows);
     } catch (e) {
       console.error(e);

@@ -114,9 +114,12 @@ export default function DropdownFilters({
   const handleCopyUrl = () => {
     if (process.browser) {
       const currentUrl = `${window.origin}${router.asPath}`;
-      navigator.clipboard.writeText(currentUrl).then(() => {
-        console.log("Copied", currentUrl);
-      });
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          console.log("Copied", currentUrl);
+        })
+        .catch((e) => console.log(e));
     }
   };
 
