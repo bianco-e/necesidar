@@ -36,7 +36,6 @@ export default function useFilters(
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log("response", response);
         if (response) return setter(response);
         return setter([]);
       })
@@ -44,9 +43,7 @@ export default function useFilters(
   };
 
   useEffect(() => {
-    console.log("outter state", state);
     if (Object.values(state).some((f) => f !== undefined)) {
-      console.log(state);
       fetchWithFilters();
     }
     const query = querifyObject(Object.entries(state));

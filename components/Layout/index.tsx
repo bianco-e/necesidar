@@ -33,6 +33,6 @@ const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 110px 0 0 0;
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 120px);
   width: 100%;
 `;
