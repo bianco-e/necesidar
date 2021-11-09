@@ -4,8 +4,9 @@ import styled from "styled-components";
 import Dropdown from "../Styled/Dropdown";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { capitalizeString } from "../../utils/helpers";
+import { capitalizeString, querifyObject } from "../../utils/helpers";
 import Button from "../Styled/Button";
+import Tooltip from "../Styled/Tooltip";
 
 interface IProps {
   variant: "needs" | "donations";
@@ -68,10 +69,17 @@ export default function DropdownFilters({
   state,
   variant,
 }: IProps) {
+  const [showCopiedTooltip, setShowCopiedTooltip] = useState<boolean>(false);
   const [selectedProvinceId, setSelectedProvinceId] = useState<string>();
   const [cities, setCities] = useState<Geo[]>([]);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (showCopiedTooltip) {
+      setTimeout(() => setShowCopiedTooltip(false), 2100);
+    }
+  }, [showCopiedTooltip]);
 
   useEffect(() => {
     if (!state.province && !selectedProvinceId) return setField("city", "");
@@ -93,8 +101,22 @@ export default function DropdownFilters({
   }, [selectedProvinceId]);
 
   const TYPE_OPTIONS = [
-    { name: "Necesidades", onSelection: () => router.push("necesidades") },
-    { name: "Donaciones", onSelection: () => router.push("donaciones") },
+    {
+      name: "Necesidades",
+      onSelection: () =>
+        router.push({
+          pathname: "/necesidades",
+          query: router.query,
+        }),
+    },
+    {
+      name: "Donaciones",
+      onSelection: () =>
+        router.push({
+          pathname: "/donaciones",
+          query: router.query,
+        }),
+    },
   ];
 
   const PROVINCES_OPTIONS = parseGeoData(
@@ -117,9 +139,7 @@ export default function DropdownFilters({
       const currentUrl = `${window.origin}${router.asPath}`;
       navigator.clipboard
         .writeText(currentUrl)
-        .then(() => {
-          console.log("Copied URL:", currentUrl);
-        })
+        .then(() => setShowCopiedTooltip(true))
         .catch((e) => console.log(e));
     }
   };
@@ -172,6 +192,13 @@ export default function DropdownFilters({
       <Container>
         <Button onClick={handleCopyUrl} size="sm" variant={variant}>
           <>
+            {showCopiedTooltip ? (
+              <Tooltip
+                content="¡Copiado!"
+                variant={variant}
+                withAnimation={true}
+              />
+            ) : null}
             <span>Copiar link</span>
             <img
               height="35"

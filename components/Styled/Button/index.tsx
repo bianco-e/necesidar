@@ -148,6 +148,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   display: flex;
   padding: 0 20px;
+  position: relative;
   transition: all 0.1s ease;
   ${({ fWeight, size, variant, width }: StyleProps) => `
     background: ${VARIANTS[variant].bg};
