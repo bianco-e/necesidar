@@ -33,8 +33,8 @@ export interface SelectedFilter {
 }
 
 export interface PublicationsFilters {
-  province: string;
-  city: string;
-  category: string;
-  title: string;
+  province?: string;
+  city?: string;
+  category?: string;
+  title?: string;
 }

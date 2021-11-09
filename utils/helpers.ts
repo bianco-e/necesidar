@@ -7,6 +7,15 @@ export const capitalizeString = (s: string): string =>
 export const ellipseText = (text: string, length: number): string =>
   text.length > length ? `${text.substring(0, length)}...` : text;
 
+// QUERY STRING HELPERS
+export const querifyObject = (values: string[][]): string =>
+  values
+    .filter(([fN, value]) => value)
+    .map(([filterName, value], idx) =>
+      idx === 0 ? `?${filterName}=${value}` : `&${filterName}=${value}`
+    )
+    .join("");
+
 // DATE HELPERS
 export const getDaysDifference = (
   initialDate: number,

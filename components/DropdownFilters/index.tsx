@@ -74,6 +74,7 @@ export default function DropdownFilters({
   const router = useRouter();
 
   useEffect(() => {
+    if (!state.province && !selectedProvinceId) return setField("city", "");
     if (state.province && !selectedProvinceId) {
       const currentProvince = provinces.find(
         (p) => p.nombre === state.province
@@ -86,7 +87,7 @@ export default function DropdownFilters({
     if (selectedProvinceId !== undefined) {
       fetchCities(setCities, selectedProvinceId);
     } else {
-      setField("city", "");
+      setField("city", undefined);
       setCities([]);
     }
   }, [selectedProvinceId]);
@@ -100,7 +101,7 @@ export default function DropdownFilters({
     {
       name: "Provincia",
       onSelection: () => {
-        setField("province", undefined);
+        setField("province", "");
         setSelectedProvinceId(undefined);
       },
     },
@@ -117,7 +118,7 @@ export default function DropdownFilters({
       navigator.clipboard
         .writeText(currentUrl)
         .then(() => {
-          console.log("Copied", currentUrl);
+          console.log("Copied URL:", currentUrl);
         })
         .catch((e) => console.log(e));
     }
@@ -138,7 +139,7 @@ export default function DropdownFilters({
           options={[
             {
               name: "Categoría",
-              onSelection: () => setField("category", undefined),
+              onSelection: () => setField("category", ""),
             },
           ].concat(
             CATEGORIES.map((c) => ({
@@ -161,7 +162,7 @@ export default function DropdownFilters({
           options={parseGeoData(
             {
               name: "Localidad",
-              onSelection: () => setField("city", undefined),
+              onSelection: () => setField("city", ""),
             },
             cities,
             (n) => setField("city", n)

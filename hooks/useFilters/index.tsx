@@ -1,50 +1,23 @@
-import type { PublicationData, PublicationsFilters } from "../interfaces";
+import type { PublicationData } from "../../interfaces";
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
-
-const SET_FIELD = "SET_FIELD";
-const SET_SLICE = "SET_SLICE";
-const RESET_STATE = "RESET_STATE";
+import { querifyObject } from "../../utils/helpers";
+import {
+  filtersInitialState,
+  filtersReducer,
+  RESET_STATE,
+  SET_FIELD,
+  SET_SLICE,
+} from "./reducer";
 
 type Setter = (data: PublicationData[] | undefined) => void;
 type PublicationType = number;
-
-const initialState: PublicationsFilters = {
-  province: "",
-  city: "",
-  category: "",
-  title: "",
-};
-
-const reducer = (
-  state = initialState,
-  action: { type: string; payload?: any }
-) => {
-  switch (action.type) {
-    case SET_FIELD:
-      return { ...state, [action.payload.field]: action.payload.value };
-    case SET_SLICE:
-      return { ...state, ...action.payload };
-    case RESET_STATE:
-      return initialState;
-    default:
-      return state;
-  }
-};
-
-const querify = (values: string[][]): string =>
-  values
-    .filter(([fN, value]) => value)
-    .map(([filterName, value], idx) =>
-      idx === 0 ? `?${filterName}=${value}` : `&${filterName}=${value}`
-    )
-    .join("");
 
 export default function useFilters(
   setter: Setter,
   publicationType: PublicationType
 ) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(filtersReducer, filtersInitialState);
   const router = useRouter();
 
   const resetState = () => dispatch({ type: RESET_STATE });
@@ -63,11 +36,22 @@ export default function useFilters(
     })
       .then((res) => res.json())
       .then((response) => {
+        console.log("response", response);
         if (response) return setter(response);
         return setter([]);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error("Error: ", e));
   };
+
+  useEffect(() => {
+    console.log("outter state", state);
+    if (Object.values(state).some((f) => f !== undefined)) {
+      console.log(state);
+      fetchWithFilters();
+    }
+    const query = querifyObject(Object.entries(state));
+    router.push({ search: query });
+  }, [state.province, state.city, state.category, state.title]);
 
   useEffect(() => {
     const parsedQuery = Object.entries(router.query).reduce(
@@ -81,15 +65,12 @@ export default function useFilters(
     if (Object.values(parsedQuery).some((f) => f)) {
       dispatch({ type: SET_SLICE, payload: parsedQuery });
     }
-  }, [router.query]);
-
-  useEffect(() => {
-    fetchWithFilters();
-    if (Object.values(state).some((f) => f)) {
-      const query = querify(Object.entries(state));
-      router.push({ search: query });
-    } else router.push({ search: "" });
-  }, [state.province, state.city, state.category, state.title]);
+  }, [
+    router.query.province,
+    router.query.city,
+    router.query.category,
+    router.query.title,
+  ]);
 
   return { resetState, setField, state };
 }
