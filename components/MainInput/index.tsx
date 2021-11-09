@@ -15,21 +15,21 @@ interface IProps {
 const VARIANTS = {
   default: {
     borderColor: globalTheme.primary_green,
-    push: "/donaciones?search=",
+    push: "/donaciones?title=",
     placeholder: "Ej: Silla de ruedas",
     title: "Buscá lo que necesites",
     width: "520px",
   },
   donations: {
     borderColor: globalTheme.primary_green,
-    push: "/donaciones?search=",
+    push: "/donaciones?title=",
     placeholder: "Buscá en Donaciones",
     title: "Donaciones",
     width: "450px",
   },
   needs: {
     borderColor: globalTheme.primary_red,
-    push: "/necesidades?search=",
+    push: "/necesidades?title=",
     placeholder: "Buscá en Necesidades",
     title: "Necesidades",
     width: "450px",

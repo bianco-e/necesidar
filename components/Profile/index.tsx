@@ -20,5 +20,6 @@ const Wrapper = styled.main`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 40px;
   width: ${({ theme }) => theme.desktop_container};
 `;
