@@ -1,20 +1,28 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
+import type { PublicationData, UserSession } from "../../interfaces";
+import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
 import Button from "../../components/Styled/Button";
 import PublicationsController from "../../database/controllers/Publications.controllers";
-import { PublicationData } from "../../interfaces";
 
 interface IProps {
   myDonations?: PublicationData[];
+  session: UserSession;
 }
 
-const ProfilePage: NextPage<IProps> = ({ myDonations }) => {
+const ProfilePage: NextPage<IProps> = ({ myDonations, session }) => {
+  const router = useRouter();
   return (
-    <Profile title="Mis Donaciones">
+    <Profile session={session} title="Mis Donaciones">
       <>
         <MyPublicationsMenu publications={myDonations} />
-        <Button size="md" variant="donations" onClick={() => {}}>
+        <Button
+          size="md"
+          variant="donations"
+          onClick={() => router.push("/publicar?type=2")}
+        >
           Agregar Donación
         </Button>
       </>
@@ -22,23 +30,33 @@ const ProfilePage: NextPage<IProps> = ({ myDonations }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
     const myDonations = await PublicationsController.getPublicationsByUserId(
       10,
       1
     );
+    const session = await getSession(ctx);
+    if (session)
+      return {
+        props: {
+          session,
+          myDonations,
+        },
+      };
     return {
-      props: {
-        myDonations,
+      redirect: {
+        permanent: false,
+        destination: "/explore",
       },
-      revalidate: 30,
     };
   } catch (e) {
     console.error(e);
     return {
-      props: { myDonations: null },
-      revalidate: 30,
+      redirect: {
+        permanent: false,
+        destination: "/explore",
+      },
     };
   }
 }

@@ -1,20 +1,28 @@
-import type { NextPage } from "next";
+import type { GetServerSidePropsContext, NextPage } from "next";
+import type { PublicationData, UserSession } from "../../interfaces";
+import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
 import Button from "../../components/Styled/Button";
 import PublicationsController from "../../database/controllers/Publications.controllers";
-import { PublicationData } from "../../interfaces";
 
 interface IProps {
   myNeeds?: PublicationData[];
+  session: UserSession;
 }
 
-const ProfilePage: NextPage<IProps> = ({ myNeeds }) => {
+const ProfilePage: NextPage<IProps> = ({ myNeeds, session }) => {
+  const router = useRouter();
   return (
-    <Profile title="Mis Necesidades">
+    <Profile session={session} title="Mis Necesidades">
       <>
         <MyPublicationsMenu publications={myNeeds} />
-        <Button size="md" variant="needs" onClick={() => {}}>
+        <Button
+          size="md"
+          variant="needs"
+          onClick={() => router.push("/publicar?type=1")}
+        >
           Agregar Necesidad
         </Button>
       </>
@@ -22,20 +30,30 @@ const ProfilePage: NextPage<IProps> = ({ myNeeds }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
     const myNeeds = await PublicationsController.getPublicationsByUserId(10, 0);
+    const session = await getSession(ctx);
+    if (session)
+      return {
+        props: {
+          session,
+          myNeeds,
+        },
+      };
     return {
-      props: {
-        myNeeds,
+      redirect: {
+        permanent: false,
+        destination: "/explore",
       },
-      revalidate: 30,
     };
   } catch (e) {
     console.error(e);
     return {
-      props: { myNeeds: null },
-      revalidate: 30,
+      redirect: {
+        permanent: false,
+        destination: "/explore",
+      },
     };
   }
 }

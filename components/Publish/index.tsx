@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import ProgressBar from "./ProgressBar";
 import StepOne from "./StepOne";
@@ -7,20 +8,32 @@ import { initialState, reducer, SET_FIELD } from "./reducer";
 import usePublishDictionary from "./usePublishDictionary";
 
 const STEPS = [StepOne, StepTwo];
+const ALLOWED_TYPES: string[] = ["1", "2"];
 
 export default function Publish() {
+  const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const CurrentComponent = STEPS[state.currentStep];
+
+  const setField = (field: string, value: any) =>
+    dispatch({ type: SET_FIELD, payload: { field, value } });
+
+  useEffect(() => {
+    const type = Array.isArray(router.query.type)
+      ? router.query.type[0]
+      : router.query.type;
+    if (type && ALLOWED_TYPES.includes(type)) {
+      setField("publicationType", parseInt(type));
+      router.push({ query: {} });
+    }
+  }, [router.query]);
 
   useEffect(() => {
     if (process.browser) {
       window.scrollTo(0, 0);
     }
   }, [state.currentStep]);
-
-  const CurrentComponent = STEPS[state.currentStep];
-
-  const setField = (field: string, value: any) =>
-    dispatch({ type: SET_FIELD, payload: { field, value } });
 
   return (
     <Wrapper>

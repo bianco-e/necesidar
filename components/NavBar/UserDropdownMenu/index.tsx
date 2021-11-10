@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import { UserSession } from "../../../interfaces";
 import { ellipseText } from "../../../utils/helpers";
@@ -37,7 +37,7 @@ export default function UserDropdownMenu({ session, signOut }: IProps) {
           <DropdownButton
             onClick={() => signOut({ callbackUrl: `${window.origin}/explore` })}
           >
-            Cerrar sesion
+            Cerrar sesión
           </DropdownButton>
         </DropdownContainer>
       ) : null}
@@ -45,7 +45,7 @@ export default function UserDropdownMenu({ session, signOut }: IProps) {
   );
 }
 
-const MenuContainer = styled.div`
+const MenuContainer = styled.button`
   align-items: center;
   background: none;
   border: 0;
@@ -64,6 +64,12 @@ const MenuContainer = styled.div`
     margin: 0;
     margin-right: -12px;
     padding: 5px 15px;
+    > span b {
+      font-weight: 600;
+    }
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
   }
 `;
 
@@ -74,11 +80,25 @@ const Avatar = styled.img`
   width: 44px;
 `;
 
+const fallingDropdownAnimation = keyframes`
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 120px;
+    opacity: 1;
+  }
+`;
+
 const DropdownContainer = styled.div`
+  animation: 0.3s ${fallingDropdownAnimation} forwards;
   background: ${({ theme }) => theme.white};
   border: 2px solid ${({ theme }) => theme.primary_red};
   border-radius: 0 0 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
+  height: 100%;
   flex-direction: column;
   position: absolute;
   top: 110%;
