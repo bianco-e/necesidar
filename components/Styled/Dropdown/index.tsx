@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 import styled from "styled-components";
 import { ellipseText } from "../../../utils/helpers";
 import Button from "../Button";
@@ -37,27 +38,7 @@ export default function Dropdown({
   }, [initialValue]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (e: MouseEvent) => {
-    const { clientX, clientY } = e;
-    if (dropdownRef.current) {
-      const isClickingOut =
-        clientX >
-          dropdownRef.current.offsetLeft + dropdownRef.current.offsetWidth ||
-        clientX < dropdownRef.current.offsetLeft ||
-        clientY >
-          dropdownRef.current.offsetTop + dropdownRef.current.offsetHeight ||
-        clientY < dropdownRef.current.offsetTop;
-      if (isClickingOut) {
-        setIsOpen(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    isOpen && document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [isOpen]);
+  useOutsideClick(dropdownRef, setIsOpen, isOpen);
 
   const handleSelection = (o: DropdownOption) => {
     setShowingOption(o);

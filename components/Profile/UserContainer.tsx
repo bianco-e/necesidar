@@ -1,19 +1,25 @@
 import styled from "styled-components";
 import Button from "../Styled/Button";
 import { useRouter } from "next/router";
+import { UserSession } from "../../interfaces";
 
-export default function UserContainer() {
+interface IProps {
+  session: UserSession;
+}
+
+export default function UserContainer({ session }: IProps) {
   const { push } = useRouter();
+
   return (
     <Wrapper>
       <Container>
         <img
-          alt="User Name"
+          alt={session.user.name}
           className="user-avatar"
-          src="https://definicionde.es/wp-content/uploads/2019/04/definicion-de-persona-min.jpg"
+          src={session.user.image}
         />
-        <h3 className="user-name">Jorgelina Perez Desantis</h3>
-        <p className="user-email">jorgelina_perez_desantis@gmail.com</p>
+        <h3 className="user-name">{session.user.name}</h3>
+        <p className="user-email">{session.user.email}</p>
       </Container>
 
       <Button

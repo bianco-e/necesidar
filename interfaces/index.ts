@@ -38,3 +38,12 @@ export interface PublicationsFilters {
   category?: string;
   title?: string;
 }
+
+export interface UserSession {
+  expires: Date;
+  user: {
+    email: string;
+    image: string;
+    name: string;
+  };
+}

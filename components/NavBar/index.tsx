@@ -2,9 +2,13 @@ import styled from "styled-components";
 import Button from "../Styled/Button";
 import Logo from "../Styled/Logo";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
+import UserDropdownMenu from "./UserDropdownMenu";
 
 export default function NavBar() {
+  const [session, loading] = useSession();
+
   const { push } = useRouter();
   return (
     <NavBarWrapper>
@@ -23,14 +27,19 @@ export default function NavBar() {
           >
             Explorar
           </Button>
-          <Button
-            onClick={() => push("/perfil")}
-            size="md"
-            variant="needs"
-            width="180px"
-          >
-            Ingresar
-          </Button>
+          {!session ? (
+            <Button
+              onClick={() => signIn()}
+              margin="0 0 0 40px"
+              size="md"
+              variant="needs"
+              width="180px"
+            >
+              Ingresar
+            </Button>
+          ) : (
+            <UserDropdownMenu session={session} signOut={signOut} />
+          )}
         </div>
       </NavBarContainer>
     </NavBarWrapper>
@@ -58,9 +67,8 @@ const NavBarContainer = styled.div`
   justify-content: space-between;
   width: ${({ theme }) => theme.desktop_container};
   > div.buttons-container {
-    width: 400px;
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: space-between;
   }
 `;

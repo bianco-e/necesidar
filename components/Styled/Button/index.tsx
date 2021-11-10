@@ -105,6 +105,7 @@ interface IProps {
   children: JSX.Element | string;
   disabled?: boolean;
   fWeight?: string;
+  margin?: string;
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
   size?: keyof typeof SIZES;
   variant?: keyof typeof VARIANTS;
@@ -112,10 +113,11 @@ interface IProps {
 }
 
 export default function Button({
-  onClick,
   children,
   disabled,
   fWeight = "400",
+  margin = "0",
+  onClick,
   size = "md",
   variant = "primary",
   width = "auto",
@@ -123,8 +125,9 @@ export default function Button({
   return (
     <StyledButton
       disabled={disabled}
-      onClick={onClick}
       fWeight={fWeight}
+      margin={margin}
+      onClick={onClick}
       size={size}
       variant={variant}
       width={width}
@@ -136,6 +139,7 @@ export default function Button({
 
 interface StyleProps {
   fWeight: string;
+  margin: string;
   size: keyof typeof SIZES;
   variant: keyof typeof VARIANTS;
   width: string;
@@ -150,7 +154,7 @@ const StyledButton = styled.button`
   padding: 0 20px;
   position: relative;
   transition: all 0.1s ease;
-  ${({ fWeight, size, variant, width }: StyleProps) => `
+  ${({ fWeight, margin, size, variant, width }: StyleProps) => `
     background: ${VARIANTS[variant].bg};
     border: ${VARIANTS[variant].border};
     color: ${VARIANTS[variant].color};
@@ -158,6 +162,7 @@ const StyledButton = styled.button`
     font-weight: ${fWeight};
     height: ${SIZES[size].height};
     justify-content: ${VARIANTS[variant].justify};
+    margin: ${margin};
     width: ${width};
     &:hover {
       background: ${VARIANTS[variant].hover};
