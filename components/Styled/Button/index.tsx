@@ -68,14 +68,14 @@ export const VARIANTS: Variants = {
   needs: {
     bg: globalTheme.white,
     border: `3px solid ${globalTheme.primary_red}`,
-    hover: "rgba(255, 124, 112, 0.05)",
+    hover: globalTheme.not_white,
     color: globalTheme.primary_red,
     justify: "center",
   },
   donations: {
     bg: globalTheme.white,
     border: `3px solid ${globalTheme.primary_green}`,
-    hover: "rgba(142, 220, 185, 0.05)",
+    hover: globalTheme.not_white,
     color: globalTheme.primary_green,
     justify: "center",
   },

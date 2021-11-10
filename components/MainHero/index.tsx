@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { signIn, useSession } from "next-auth/client";
 import Button from "../Styled/Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function MainHero() {
+  const [session, loading] = useSession();
   const { push } = useRouter();
   return (
     <Container>
@@ -31,9 +33,25 @@ export default function MainHero() {
               </Button>
             </a>
           </Link>
-          <Button onClick={() => {}} size="md" variant="needs" width="180px">
-            Ingresar
-          </Button>
+          {!session && !loading ? (
+            <Button
+              onClick={() => signIn()}
+              size="md"
+              variant="needs"
+              width="180px"
+            >
+              Ingresar
+            </Button>
+          ) : (
+            <Button
+              onClick={() => push("/publicar")}
+              size="md"
+              variant="needs"
+              width="180px"
+            >
+              Publicar
+            </Button>
+          )}
         </div>
       </div>
     </Container>
@@ -78,7 +96,12 @@ const Container = styled.div`
       align-items: center;
       display: flex;
       justify-content: space-between;
-      width: 400px;
+      > button {
+        margin-left: 40px;
+        &:first-child {
+          margin-left: 0;
+        }
+      }
     }
   }
 `;
