@@ -45,7 +45,7 @@ export default function UserDropdownMenu({ session, signOut }: IProps) {
   );
 }
 
-const MenuContainer = styled.button`
+const MenuContainer = styled.div`
   align-items: center;
   background: none;
   border: 0;

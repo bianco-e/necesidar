@@ -5,7 +5,7 @@ import theme from "../styles/globalTheme";
 import Layout from "../components/Layout";
 import { Provider } from "next-auth/client";
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <Provider session={pageProps.session}>
@@ -16,4 +16,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ThemeProvider>
   );
 }
-export default MyApp;
