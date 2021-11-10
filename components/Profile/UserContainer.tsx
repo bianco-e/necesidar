@@ -29,6 +29,7 @@ export default function UserContainer({ session }: IProps) {
       >
         Publicar
       </Button>
+
       <Container>
         <Button onClick={() => push("/perfil/mis-favoritos")} variant="primary">
           Mis favoritos
@@ -67,6 +68,7 @@ const Container = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   > img.user-avatar {
     border-radius: 50%;
@@ -86,5 +88,8 @@ const Container = styled.div`
   > button {
     margin-bottom: 20px;
     width: 100%;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 `;

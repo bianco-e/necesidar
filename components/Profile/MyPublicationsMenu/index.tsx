@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PublicationData } from "../../../interfaces";
+import NoResults from "../../Styled/NoResults";
 import MyPublicationCard from "./MyPublicationCard";
 
 interface IProps {
@@ -23,7 +24,7 @@ export default function MyPublicationsMenu({
             />
           ))
         ) : (
-          <span>No tenes publicaciones</span>
+          <NoResults text="No tenes publicaciones" />
         )
       ) : (
         <span>Cargando...</span>
