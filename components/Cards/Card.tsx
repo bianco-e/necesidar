@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 import { PublicationData } from "../../interfaces";
 import { ellipseText, getDaysDifference } from "../../utils/helpers";
 import { useRouter } from "next/router";
@@ -14,25 +15,46 @@ export default function Card({ data }: IProps) {
   return (
     <CardContainer onClick={() => push(`/id/${data.id}`)}>
       <CardImage isUrgent={data.is_urgent}>
-        <img alt={data.title} src={data.images[0]} />
+        <Image
+          objectFit="cover"
+          height={160}
+          layout="fill"
+          alt={data.title}
+          src={data.images[0]}
+        />
       </CardImage>
       <h3 title={data.title}>{ellipseText(data.title, 27)}</h3>
       <p>{ellipseText(data.description, 85)}</p>
       <ul>
         <li className={data.can_move ? "" : "overline"}>
-          <img alt="movilidad" src="/icons/card-car-icon.png" />
+          <Image
+            height={25}
+            width={25}
+            alt="movilidad"
+            src="/icons/card-car-icon.png"
+          />
           <span>
             {data.can_move ? "Tiene movilidad" : "No tiene movilidad"}
           </span>
         </li>
         <li>
-          <img alt="ubicacion" src="/icons/card-location-icon.png" />
+          <Image
+            height={25}
+            width={25}
+            alt="ubicacion"
+            src="/icons/card-location-icon.png"
+          />
           <span>
             {data.city}, {data.province}
           </span>
         </li>
         <li>
-          <img alt="calendario" src="/icons/card-calendar-icon.png" />
+          <Image
+            height={25}
+            width={25}
+            alt="calendario"
+            src="/icons/card-calendar-icon.png"
+          />
           <span>
             {daysDiff < 1
               ? "Publicado hoy"
@@ -44,7 +66,15 @@ export default function Card({ data }: IProps) {
         <span>
           {data.user_first_name}, {data.user_last_name}
         </span>
-        <img alt={data.user_first_name} src={data.user_avatar} />
+        <div className="avatar-container">
+          <Image
+            objectFit="cover"
+            height={35}
+            width={35}
+            alt={data.user_first_name}
+            src={data.user_avatar}
+          />
+        </div>
       </div>
     </CardContainer>
   );
@@ -84,9 +114,7 @@ export const CardContainer = styled.div`
       display: flex;
       position: relative;
       > img {
-        height: 25px;
         margin-right: 5px;
-        width: 25px;
       }
     }
     > li.overline {
@@ -105,12 +133,12 @@ export const CardContainer = styled.div`
     align-self: flex-end;
     display: flex;
     font-size: 14px;
-    > img {
+    > div.avatar-container {
       border-radius: 50%;
-      margin-left: 10px;
-      object-fit: cover;
-      width: 35px;
       height: 35px;
+      width: 35px;
+      margin-left: 10px;
+      overflow: hidden;
     }
   }
   &:hover {
@@ -122,14 +150,9 @@ export const CardContainer = styled.div`
 const CardImage = styled.div`
   border-radius: 10px;
   height: 160px;
+  overflow: hidden;
   position: relative;
   width: 100%;
-  > img {
-    border-radius: 10px;
-    height: 160px;
-    object-fit: cover;
-    width: 100%;
-  }
   ${({
     isUrgent,
     //@ts-ignore
