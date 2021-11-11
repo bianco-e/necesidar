@@ -2,9 +2,11 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { getSession } from "next-auth/client";
 import Profile from "../../components/Profile";
 import ConfigurationMenu from "../../components/Profile/ConfigurationMenu";
+import UsersControllers from "../../database/controllers/Users.controllers";
+import { Session } from "../../interfaces";
 
 interface IProps {
-  session: any;
+  session: Session;
 }
 
 const ProfilePage: NextPage<IProps> = ({ session }) => {
@@ -18,12 +20,13 @@ const ProfilePage: NextPage<IProps> = ({ session }) => {
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
     const session = await getSession(ctx);
-    if (session)
+    if (session) {
       return {
         props: {
           session,
         },
       };
+    }
     return {
       redirect: {
         permanent: false,

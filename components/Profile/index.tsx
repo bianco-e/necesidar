@@ -1,10 +1,10 @@
-import type { UserSession } from "../../interfaces";
+import type { Session } from "../../interfaces";
 import styled from "styled-components";
 import UserContainer from "./UserContainer";
 import MenuContainer from "./MenuContainer";
 
 interface IProps {
-  session: UserSession;
+  session: Session;
   children: JSX.Element;
   title: string;
 }

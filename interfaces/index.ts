@@ -39,11 +39,20 @@ export interface PublicationsFilters {
   title?: string;
 }
 
-export interface UserSession {
+export interface SessionUser {
+  email: string;
+  image: string;
+  name: string;
+  first_name: string;
+  last_name: String;
+  google_id: string;
+  can_move?: boolean;
+  phone?: string;
+  province?: string;
+  city?: string;
+}
+
+export interface Session {
   expires: Date;
-  user: {
-    email: string;
-    image: string;
-    name: string;
-  };
+  user: SessionUser;
 }

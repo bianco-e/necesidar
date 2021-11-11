@@ -2,18 +2,17 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
-import { UserSession } from "../../../interfaces";
+import { Session } from "../../../interfaces";
 import { ellipseText } from "../../../utils/helpers";
 
 interface IProps {
-  session: UserSession;
+  session: Session;
   signOut: (options: { callbackUrl: string }) => void;
 }
 
 export default function UserDropdownMenu({ session, signOut }: IProps) {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const router = useRouter();
-  const username = ellipseText(session.user.name.split(" ")[0], 10);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   useOutsideClick(dropdownRef, setShowDropdown, showDropdown);
@@ -22,7 +21,7 @@ export default function UserDropdownMenu({ session, signOut }: IProps) {
     <MenuContainer onClick={() => setShowDropdown(!showDropdown)}>
       <p>
         <span>
-          Hola <b>{username}</b>
+          Hola <b>{ellipseText(session.user.first_name, 10)}</b>
         </span>
       </p>
       <Avatar alt={session.user.name} src={session.user.image} />
@@ -53,16 +52,19 @@ const MenuContainer = styled.div`
   display: flex;
   font-size: 16px;
   margin-left: 40px;
+  min-width: 180px;
   position: relative;
   > p {
+    align-items: center;
     border-radius: 10px 0 0 10px;
     border: 2px solid ${({ theme }) => theme.primary_red};
     border-right: 0;
-    height: 40px;
     display: flex;
-    align-items: center;
+    height: 40px;
+    justify-content: center;
     margin: 0;
     margin-right: -12px;
+    min-width: 158px;
     padding: 5px 15px;
     > span b {
       font-weight: 600;

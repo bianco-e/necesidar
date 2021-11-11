@@ -1,3 +1,4 @@
+import { SessionUser } from "../../interfaces";
 import pool from "../index";
 import { mapResponse } from "../utils";
 
@@ -14,20 +15,24 @@ export default class UsersControllers {
     }
   }
 
-  static async createUser(user: {
-    name: string;
-    email: string;
-    image: string;
-  }) {
+  static async createUserOrGetUserIfExists(user: SessionUser) {
     try {
       const res = await pool.query(
-        `INSERT INTO users (first_name , last_name , email, avatar)
-        VALUES ('${user.name}', '${user.name}', '${user.email}', '${user.image}')
-        ON CONFLICT (email) DO NOTHING`
+        `WITH s as (
+          SELECT * FROM users
+          WHERE email = '${user.email}'
+      ), i as (
+          INSERT INTO users (first_name , last_name , email, avatar, google_id, created_at)
+          SELECT '${user.first_name}', '${user.last_name}', '${user.email}', '${user.image}', '${user.google_id}', 'NOW()'
+          WHERE NOT EXISTS (select 1 from s)
+          RETURNING *
+      )
+      SELECT * FROM i
+      UNION ALL
+      SELECT * FROM s`
       );
-      return {
-        userExists: res.rowCount === 1,
-      };
+      console.log("res", res.rows);
+      return res.rows[0];
     } catch (e) {
       console.error(e);
     }

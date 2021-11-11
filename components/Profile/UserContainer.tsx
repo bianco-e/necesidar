@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Button from "../Styled/Button";
 import { useRouter } from "next/router";
-import { UserSession } from "../../interfaces";
+import { Session } from "../../interfaces";
 
 interface IProps {
-  session: UserSession;
+  session: Session;
 }
 
 export default function UserContainer({ session }: IProps) {

@@ -84,6 +84,19 @@ export default class PublicationsController {
     }
   }
 
+  static async getFavoritesByUserId(userId: number) {
+    try {
+      const res = await pool.query(
+        `${PUBLICATIONS_BASE_QUERY}
+          WHERE p.user_id = ${userId}
+          ORDER BY p.created_at desc`
+      );
+      return mapResponse(res.rows);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   static async getFilteredPublications(
     filters: PublicationsFilters,
     publicationType: number,

@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import type { PublicationData, UserSession } from "../../interfaces";
+import type { PublicationData, Session } from "../../interfaces";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
@@ -9,7 +9,7 @@ import PublicationsController from "../../database/controllers/Publications.cont
 
 interface IProps {
   myNeeds?: PublicationData[];
-  session: UserSession;
+  session: Session;
 }
 
 const ProfilePage: NextPage<IProps> = ({ myNeeds, session }) => {
