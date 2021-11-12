@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import type { PublicationData, Session } from "../../interfaces";
+import type { PublicationData, SessionUser } from "../../interfaces";
 import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import Profile from "../../components/Profile";
@@ -9,13 +9,13 @@ import PublicationsController from "../../database/controllers/Publications.cont
 
 interface IProps {
   myNeeds?: PublicationData[];
-  session: Session;
+  user: SessionUser;
 }
 
-const ProfilePage: NextPage<IProps> = ({ myNeeds, session }) => {
+const ProfilePage: NextPage<IProps> = ({ myNeeds, user }) => {
   const router = useRouter();
   return (
-    <Profile session={session} title="Mis Necesidades">
+    <Profile user={user} title="Mis Necesidades">
       <>
         <MyPublicationsMenu publications={myNeeds} />
         <Button
@@ -37,7 +37,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     if (session)
       return {
         props: {
-          session,
+          user: session.user,
           myNeeds,
         },
       };

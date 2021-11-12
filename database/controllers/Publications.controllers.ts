@@ -4,7 +4,7 @@ import { mapResponse } from "../utils";
 import { parseFiltersToSQLQuery } from "./utils";
 
 const PUBLICATIONS_BASE_QUERY = `
-SELECT p.*, u.first_name as user_first_name, u.last_name as user_last_name, u.avatar as user_avatar
+SELECT p.*, u.first_name as user_first_name, u.last_name as user_last_name, u.image as user_image
 FROM publications p 
 LEFT JOIN users u 
 ON p.user_id = u.user_id`;

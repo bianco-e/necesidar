@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { PublicationData } from "../../interfaces";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 import { getDaysDifference } from "../../utils/helpers";
 import Button from "../Styled/Button";
 
@@ -44,7 +45,7 @@ export default function CardSingleView({ data }: IProps) {
                 </span>
               </li>
               <li className="user-data">
-                <img alt={data.user_first_name} src={data.user_avatar} />
+                <img alt={data.user_first_name} src={data.user_image} />
                 <p>
                   {data.user_first_name}, {data.user_last_name}
                 </p>
@@ -117,6 +118,12 @@ const Card = styled.div`
     > p {
       margin-bottom: 0;
     }
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
   }
 `;
 

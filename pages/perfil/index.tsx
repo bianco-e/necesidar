@@ -2,16 +2,15 @@ import type { GetServerSidePropsContext, NextPage } from "next";
 import { getSession } from "next-auth/client";
 import Profile from "../../components/Profile";
 import ConfigurationMenu from "../../components/Profile/ConfigurationMenu";
-import UsersControllers from "../../database/controllers/Users.controllers";
-import { Session } from "../../interfaces";
+import { SessionUser } from "../../interfaces";
 
 interface IProps {
-  session: Session;
+  user: SessionUser;
 }
 
-const ProfilePage: NextPage<IProps> = ({ session }) => {
+const ProfilePage: NextPage<IProps> = ({ user }) => {
   return (
-    <Profile session={session} title="Configuración">
+    <Profile user={user} title="Configuración">
       <ConfigurationMenu />
     </Profile>
   );
@@ -23,7 +22,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     if (session) {
       return {
         props: {
-          session,
+          user: session.user,
         },
       };
     }

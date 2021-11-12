@@ -72,7 +72,7 @@ export default function Card({ data }: IProps) {
             height={35}
             width={35}
             alt={data.user_first_name}
-            src={data.user_avatar}
+            src={data.user_image}
           />
         </div>
       </div>

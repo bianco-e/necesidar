@@ -1,25 +1,23 @@
+import type { SessionUser } from "../../interfaces";
 import styled from "styled-components";
 import Button from "../Styled/Button";
 import { useRouter } from "next/router";
-import { Session } from "../../interfaces";
 
 interface IProps {
-  session: Session;
+  user: SessionUser;
 }
 
-export default function UserContainer({ session }: IProps) {
+export default function UserContainer({ user }: IProps) {
   const { push } = useRouter();
 
   return (
     <Wrapper>
       <Container>
-        <img
-          alt={session.user.name}
-          className="user-avatar"
-          src={session.user.image}
-        />
-        <h3 className="user-name">{session.user.name}</h3>
-        <p className="user-email">{session.user.email}</p>
+        <img alt={user.first_name} className="user-avatar" src={user.image} />
+        <h3 className="user-name">
+          {user.first_name} {user.last_name}
+        </h3>
+        <p className="user-email">{user.email}</p>
       </Container>
 
       <Button

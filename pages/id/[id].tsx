@@ -19,7 +19,11 @@ const Id: NextPage<IProps> = ({ currentPublication, similarPublications }) => {
       <CardSingleView data={currentPublication} />
       <Cards
         publicationsData={similarPublications}
-        title="Otras donaciones similares"
+        title={`Otras ${
+          currentPublication.publication_type === 0
+            ? "necesidades"
+            : "donaciones"
+        } similares`}
       />
     </>
   );

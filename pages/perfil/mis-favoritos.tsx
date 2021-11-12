@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from "next";
-import type { PublicationData, Session } from "../../interfaces";
+import type { PublicationData, SessionUser } from "../../interfaces";
 import { getSession } from "next-auth/client";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
@@ -7,12 +7,12 @@ import PublicationsController from "../../database/controllers/Publications.cont
 
 interface IProps {
   myFavorites?: PublicationData[];
-  session: Session;
+  user: SessionUser;
 }
 
-const ProfileFavoritesPage: NextPage<IProps> = ({ myFavorites, session }) => {
+const ProfileFavoritesPage: NextPage<IProps> = ({ myFavorites, user }) => {
   return (
-    <Profile session={session} title="Mis Favoritos">
+    <Profile user={user} title="Mis Favoritos">
       <>
         <MyPublicationsMenu forFavorites={true} publications={[]} />
       </>
@@ -30,7 +30,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     if (session)
       return {
         props: {
-          session,
+          user: session.user,
           myFavorites,
         },
       };

@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import { getToken } from "next-auth/jwt";
+import UsersControllers from "../../../database/controllers/Users.controllers";
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -14,19 +14,30 @@ export default NextAuth({
   callbacks: {
     async jwt(token, user, account, profile, isNewUser) {
       // step before calling session()
-      // TODO: Check if token can be used token to get more info from google users
+      // TODO: Check if token can be used to get more info from google users
       return token;
     },
     async session(session, token) {
-      return {
-        ...session,
-        user: {
+      try {
+        const user = await UsersControllers.createUserOrGetUserIfExists({
           ...session.user,
+          //@ts-ignore
           google_id: token.sub,
+          //@ts-ignore
           first_name: session.user?.name?.split(" ")[0],
+          //@ts-ignore
           last_name: session.user?.name?.split(" ")[1],
-        },
-      };
+        });
+        return {
+          ...session,
+          user,
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          user: undefined,
+        };
+      }
     },
   },
   // A database is optional, but required to persist accounts in a database

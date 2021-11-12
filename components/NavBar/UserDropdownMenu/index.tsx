@@ -2,15 +2,15 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
-import { Session } from "../../../interfaces";
+import { SessionUser } from "../../../interfaces";
 import { ellipseText } from "../../../utils/helpers";
 
 interface IProps {
-  session: Session;
+  user: SessionUser;
   signOut: (options: { callbackUrl: string }) => void;
 }
 
-export default function UserDropdownMenu({ session, signOut }: IProps) {
+export default function UserDropdownMenu({ user, signOut }: IProps) {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const router = useRouter();
 
@@ -21,10 +21,10 @@ export default function UserDropdownMenu({ session, signOut }: IProps) {
     <MenuContainer onClick={() => setShowDropdown(!showDropdown)}>
       <p>
         <span>
-          Hola <b>{ellipseText(session.user.first_name, 10)}</b>
+          Hola <b>{ellipseText(user.first_name, 10)}</b>
         </span>
       </p>
-      <Avatar alt={session.user.name} src={session.user.image} />
+      <Avatar alt={user.name} src={user.image} />
       {showDropdown ? (
         <DropdownContainer ref={dropdownRef}>
           <DropdownButton onClick={() => router.push("/publicar")}>

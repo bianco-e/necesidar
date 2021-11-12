@@ -7,7 +7,7 @@ export interface PublicationData {
   user_id: string;
   user_first_name: string;
   user_last_name: string;
-  user_avatar: string;
+  user_image: string;
   province: string;
   city: string;
   neighborhood: string;

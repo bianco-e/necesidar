@@ -1,19 +1,19 @@
-import type { Session } from "../../interfaces";
+import type { SessionUser } from "../../interfaces";
 import styled from "styled-components";
 import UserContainer from "./UserContainer";
 import MenuContainer from "./MenuContainer";
 import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
-  session: Session;
+  user: SessionUser;
   children: JSX.Element;
   title: string;
 }
 
-export default function Profile({ children, session, title }: IProps) {
+export default function Profile({ children, user, title }: IProps) {
   return (
     <Wrapper>
-      <UserContainer session={session} />
+      <UserContainer user={user} />
       <MenuContainer title={title}>{children}</MenuContainer>
     </Wrapper>
   );

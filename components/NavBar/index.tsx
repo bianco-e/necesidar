@@ -39,7 +39,7 @@ export default function NavBar() {
               Ingresar
             </Button>
           ) : (
-            <UserDropdownMenu session={session} signOut={signOut} />
+            <UserDropdownMenu user={session.user} signOut={signOut} />
           )}
         </div>
       </NavBarContainer>
