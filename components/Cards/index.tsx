@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PublicationData } from "../../interfaces";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 import NoResults from "../Styled/NoResults";
 import Card from "./Card";
 import LoadingCard from "./LoadingCard";
@@ -44,4 +45,10 @@ const CardsContainer = styled.div`
   justify-content: space-between;
   margin: 0 auto 50px auto;
   width: ${({ theme }) => theme.desktop_container};
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
+  }
 `;

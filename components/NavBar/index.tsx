@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import UserDropdownMenu from "./UserDropdownMenu";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 export default function NavBar() {
   const [session, loading] = useSession();
@@ -70,5 +71,11 @@ const NavBarContainer = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
   }
 `;

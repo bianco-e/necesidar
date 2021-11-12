@@ -6,6 +6,7 @@ import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import { initialState, reducer, SET_FIELD } from "./reducer";
 import usePublishDictionary from "./usePublishDictionary";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 const STEPS = [StepOne, StepTwo];
 const ALLOWED_TYPES: string[] = ["1", "2"];
@@ -55,6 +56,12 @@ const Wrapper = styled.div`
   > span.disclaimer {
     font-size: 12px;
     font-style: italic;
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
   }
 `;
 

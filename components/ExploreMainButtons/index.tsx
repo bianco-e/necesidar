@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 export default function ExploreMainButtons() {
   return (
@@ -53,5 +54,11 @@ const ButtonsContainer = styled.div`
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
       }
     }
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
   }
 `;

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { PublicationData } from "../../interfaces";
 import { ellipseText, getDaysDifference } from "../../utils/helpers";
 import { useRouter } from "next/router";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   data: PublicationData;
@@ -17,7 +18,6 @@ export default function Card({ data }: IProps) {
       <CardImage isUrgent={data.is_urgent}>
         <Image
           objectFit="cover"
-          height={160}
           layout="fill"
           alt={data.title}
           src={data.images[0]}
@@ -140,6 +140,12 @@ export const CardContainer = styled.div`
       margin-left: 10px;
       overflow: hidden;
     }
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: calc(50% - 20px);
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: calc(100% - 20px);
   }
   &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);

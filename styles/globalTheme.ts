@@ -12,5 +12,5 @@ export default {
   //WIDTHS
   desktop_container: "1120px",
   tablet_container: "720px",
-  mobile_container: "320px",
+  mobile_container: "335px",
 };

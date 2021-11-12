@@ -3,6 +3,7 @@ import { signIn, useSession } from "next-auth/client";
 import Button from "../Styled/Button";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 export default function MainHero() {
   const [session, loading] = useSession();
@@ -102,6 +103,12 @@ const Container = styled.div`
           margin-left: 0;
         }
       }
+    }
+    @media (max-width: ${LARGE_BREAKPOINT}) {
+      width: ${({ theme }) => theme.tablet_container};
+    }
+    @media (max-width: ${SMALL_BREAKPOINT}) {
+      width: ${({ theme }) => theme.mobile_container};
     }
   }
 `;

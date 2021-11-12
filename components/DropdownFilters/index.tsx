@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { capitalizeString, querifyObject } from "../../utils/helpers";
 import Button from "../Styled/Button";
 import Tooltip from "../Styled/Tooltip";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   variant: "needs" | "donations";
@@ -226,4 +227,10 @@ const Container = styled.div`
   justify-content: space-between;
   margin-bottom: 50px;
   width: ${({ theme }) => theme.desktop_container};
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
+  }
 `;

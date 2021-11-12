@@ -2,6 +2,7 @@ import type { Session } from "../../interfaces";
 import styled from "styled-components";
 import UserContainer from "./UserContainer";
 import MenuContainer from "./MenuContainer";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   session: Session;
@@ -24,4 +25,10 @@ const Wrapper = styled.main`
   justify-content: space-between;
   margin-bottom: 40px;
   width: ${({ theme }) => theme.desktop_container};
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: ${({ theme }) => theme.tablet_container};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
+  }
 `;
