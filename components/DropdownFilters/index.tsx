@@ -4,7 +4,11 @@ import styled from "styled-components";
 import Dropdown from "../Styled/Dropdown";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { capitalizeString, querifyObject } from "../../utils/helpers";
+import {
+  capitalizeString,
+  fetchCities,
+  parseGeoData,
+} from "../../utils/helpers";
 import Button from "../Styled/Button";
 import Tooltip from "../Styled/Tooltip";
 import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
@@ -25,44 +29,6 @@ const CATEGORIES = [
   { name: "Otra", id: "5" },
 ];
 
-const fetchCities = (setter: (data: Geo[]) => void, id: string) => {
-  const route = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${id}&campos=id,nombre&max=350`;
-  fetch(route)
-    .then((res) => res.json())
-    .then((res) => {
-      if (res)
-        return setter(
-          res.localidades.map((l: Geo) => ({
-            ...l,
-            nombre: capitalizeString(l.nombre),
-          }))
-        );
-      return setter([]);
-    });
-};
-
-const parseGeoData = (
-  firstElement: { name: string; onSelection: () => void },
-  geoData: Geo[],
-  callback: (n: string, id: string) => void
-) => {
-  return [firstElement].concat(
-    geoData
-      .sort((a: Geo, b: Geo) => {
-        if (a.nombre < b.nombre) return -1;
-        if (a.nombre > b.nombre) return 1;
-        return 0;
-      })
-      .map((p) => ({
-        id: p.id,
-        name: p.nombre,
-        onSelection: () => {
-          callback(p.nombre, p.id);
-        },
-      }))
-  );
-};
-
 export default function DropdownFilters({
   provinces,
   resetState,
@@ -78,7 +44,7 @@ export default function DropdownFilters({
 
   useEffect(() => {
     if (showCopiedTooltip) {
-      setTimeout(() => setShowCopiedTooltip(false), 2100);
+      setTimeout(() => setShowCopiedTooltip(false), 2000);
     }
   }, [showCopiedTooltip]);
 

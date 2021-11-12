@@ -7,7 +7,7 @@ export default class UsersControllers {
     try {
       const res = await pool.query(
         `SELECT * FROM users u
-         WHERE p.email = ${userEmail}`
+         WHERE u.email = ${userEmail}`
       );
       return mapResponse(res.rows);
     } catch (e) {
@@ -34,6 +34,28 @@ export default class UsersControllers {
       SELECT * FROM s`
       );
       return res.rows[0];
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  static async updateUserContactColumns(
+    user_id: number,
+    province: string,
+    city: string,
+    phone: string,
+    can_move: boolean
+  ) {
+    try {
+      const res = await pool.query(
+        `UPDATE users u
+        SET province = '${province}',
+        city = '${city}',
+        phone = '${phone}',
+        can_move = ${can_move}
+        WHERE u.user_id = ${user_id}`
+      );
+      return mapResponse(res.rows);
     } catch (e) {
       console.error(e);
     }

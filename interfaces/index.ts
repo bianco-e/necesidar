@@ -40,6 +40,7 @@ export interface PublicationsFilters {
 }
 
 export interface SessionUser {
+  user_id?: string;
   email: string;
   image: string;
   name: string;
