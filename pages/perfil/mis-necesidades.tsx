@@ -17,7 +17,7 @@ const ProfilePage: NextPage<IProps> = ({ myNeeds, user }) => {
   return (
     <Profile user={user} title="Mis Necesidades">
       <>
-        <MyPublicationsMenu publications={myNeeds} />
+        <MyPublicationsMenu publications={myNeeds} user={user} />
         <Button
           size="md"
           variant="needs"
@@ -32,15 +32,20 @@ const ProfilePage: NextPage<IProps> = ({ myNeeds, user }) => {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
-    const myNeeds = await PublicationsController.getPublicationsByUserId(10, 0);
     const session = await getSession(ctx);
-    if (session)
+    if (session) {
+      const { user } = session;
+      const myNeeds = await PublicationsController.getPublicationsByUserId(
+        user.user_id,
+        0
+      );
       return {
         props: {
-          user: session.user,
+          user: user,
           myNeeds,
         },
       };
+    }
     return {
       redirect: {
         permanent: false,

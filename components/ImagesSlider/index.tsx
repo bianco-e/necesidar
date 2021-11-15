@@ -7,7 +7,6 @@ interface IProps {
 }
 
 export default function ImagesSlider({ slides, variant }: IProps) {
-  if (slides.length < 1) return null;
   const [current, setCurrent] = useState<number>(0);
   const [lastButtonPressed, setLastButtonPressed] =
     useState<keyof typeof ANIMATIONS>("next");
@@ -23,7 +22,9 @@ export default function ImagesSlider({ slides, variant }: IProps) {
   };
 
   useEffect(() => {
-    lastButtonPressed && setCurrentAnimation(ANIMATIONS[lastButtonPressed]);
+    if (lastButtonPressed !== undefined) {
+      setCurrentAnimation(ANIMATIONS[lastButtonPressed]);
+    }
     setTimeout(() => {
       setCurrentAnimation(undefined);
     }, 650);
