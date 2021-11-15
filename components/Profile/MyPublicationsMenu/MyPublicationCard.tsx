@@ -1,20 +1,38 @@
+import type { PublicationData, SessionUser } from "../../../interfaces";
 import { useState } from "react";
 import styled from "styled-components";
-import { PublicationData } from "../../../interfaces";
 import { ellipseText } from "../../../utils/helpers";
 import { useRouter } from "next/router";
 
 interface IProps {
   forFavorites?: boolean;
   publication: PublicationData;
+  user: SessionUser;
 }
 
 export default function MyPublicationCard({
   forFavorites,
   publication,
+  user,
 }: IProps) {
   const [showButtons, setShowButtons] = useState<boolean>(false);
   const { push } = useRouter();
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const body = JSON.stringify({
+      user_id: user.user_id,
+      publication_id: publication.id,
+    });
+    fetch(`/api/favorites/toggle-favorite`, {
+      method: "POST",
+      body,
+    })
+      .then((res) => res.json())
+      .then((response) => response)
+      .catch((e) => console.error(e));
+  };
+
   return (
     <Card
       onMouseEnter={() => setShowButtons(true)}
@@ -34,7 +52,7 @@ export default function MyPublicationCard({
             </button>
           </>
         ) : (
-          <button onClick={(e) => e.stopPropagation()}>
+          <button onClick={handleToggleFavorite}>
             <img alt="favorito" src="/icons/singleview-filled-heart-icon.png" />
           </button>
         )}

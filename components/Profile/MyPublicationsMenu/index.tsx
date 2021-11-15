@@ -1,16 +1,18 @@
+import type { PublicationData, SessionUser } from "../../../interfaces";
 import styled from "styled-components";
-import { PublicationData } from "../../../interfaces";
 import NoResults from "../../Styled/NoResults";
 import MyPublicationCard from "./MyPublicationCard";
 
 interface IProps {
   forFavorites?: boolean;
   publications?: PublicationData[];
+  user: SessionUser;
 }
 
 export default function MyPublicationsMenu({
   forFavorites = false,
   publications,
+  user,
 }: IProps) {
   return (
     <Wrapper>
@@ -21,6 +23,7 @@ export default function MyPublicationsMenu({
               key={publication.id}
               forFavorites={forFavorites}
               publication={publication}
+              user={user}
             />
           ))
         ) : (

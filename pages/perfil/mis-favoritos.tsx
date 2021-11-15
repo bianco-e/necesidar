@@ -3,10 +3,10 @@ import type { PublicationData, SessionUser } from "../../interfaces";
 import { getSession } from "next-auth/client";
 import Profile from "../../components/Profile";
 import MyPublicationsMenu from "../../components/Profile/MyPublicationsMenu";
-import PublicationsController from "../../database/controllers/Publications.controllers";
+import FavoritesController from "../../database/controllers/Favorites.controllers";
 
 interface IProps {
-  myFavorites?: PublicationData[];
+  myFavorites: PublicationData[];
   user: SessionUser;
 }
 
@@ -14,7 +14,11 @@ const ProfileFavoritesPage: NextPage<IProps> = ({ myFavorites, user }) => {
   return (
     <Profile user={user} title="Mis Favoritos">
       <>
-        <MyPublicationsMenu forFavorites={true} publications={[]} />
+        <MyPublicationsMenu
+          forFavorites={true}
+          publications={myFavorites}
+          user={user}
+        />
       </>
     </Profile>
   );
@@ -22,18 +26,19 @@ const ProfileFavoritesPage: NextPage<IProps> = ({ myFavorites, user }) => {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   try {
-    const myFavorites = await PublicationsController.getPublicationsByUserId(
-      10,
-      0
-    );
     const session = await getSession(ctx);
-    if (session)
+    if (session) {
+      const { user } = session;
+      const myFavorites = user.user_id
+        ? await FavoritesController.getUserFavorites(user.user_id)
+        : [];
       return {
         props: {
-          user: session.user,
+          user: user,
           myFavorites,
         },
       };
+    }
     return {
       redirect: {
         permanent: false,

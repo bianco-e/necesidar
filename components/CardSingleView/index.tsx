@@ -12,6 +12,11 @@ interface IProps {
 export default function CardSingleView({ data }: IProps) {
   const [isInFavs, setIsInFavs] = useState<boolean>(false);
   const daysDiff = getDaysDifference(data.created_at, new Date().getTime());
+
+  const handleFavorite = () => {
+    setIsInFavs(!isInFavs);
+  };
+
   return (
     <Card>
       <CardTitle>{data.title}</CardTitle>
@@ -56,7 +61,7 @@ export default function CardSingleView({ data }: IProps) {
               <button>
                 <img alt="compartir" src="/icons/singleview-share-icon.png" />
               </button>
-              <button onClick={() => setIsInFavs(!isInFavs)}>
+              <button onClick={handleFavorite}>
                 <img
                   alt="favoritos"
                   src={`/icons/singleview${
