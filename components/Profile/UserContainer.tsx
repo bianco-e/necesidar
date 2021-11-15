@@ -2,6 +2,7 @@ import type { SessionUser } from "../../interfaces";
 import styled from "styled-components";
 import Button from "../Styled/Button";
 import { useRouter } from "next/router";
+import { handleImageError } from "../../utils/helpers";
 
 interface IProps {
   user: SessionUser;
@@ -13,7 +14,14 @@ export default function UserContainer({ user }: IProps) {
   return (
     <Wrapper>
       <Container>
-        <img alt={user.first_name} className="user-avatar" src={user.image} />
+        <img
+          alt={user.first_name}
+          className="user-avatar"
+          onError={(e) =>
+            handleImageError(e, "/images/avatar-fallback-image.png")
+          }
+          src={user.image}
+        />
         <h3 className="user-name">
           {user.first_name} {user.last_name}
         </h3>

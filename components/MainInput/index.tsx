@@ -3,6 +3,7 @@ import Input from "../Styled/Input";
 import globalTheme from "../../styles/globalTheme";
 import { checkKeyDown } from "../../utils/helpers";
 import { useRouter } from "next/router";
+import { LARGE_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   onEnterDown?: (v: string) => void;
@@ -75,5 +76,9 @@ const Container = styled.div`
     font-size: 48px;
     font-weight: 600;
     margin: 0 0 20px 0;
+    text-align: center;
+    @media (max-width: ${LARGE_BREAKPOINT}) {
+      font-size: 36px;
+    }
   }
 `;

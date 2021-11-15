@@ -3,7 +3,8 @@ import { useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 import { SessionUser } from "../../../interfaces";
-import { ellipseText } from "../../../utils/helpers";
+import { SMALL_BREAKPOINT } from "../../../utils/constants";
+import { ellipseText, handleImageError } from "../../../utils/helpers";
 
 interface IProps {
   user: SessionUser;
@@ -20,11 +21,17 @@ export default function UserDropdownMenu({ user, signOut }: IProps) {
   return (
     <MenuContainer onClick={() => setShowDropdown(!showDropdown)}>
       <p>
-        <span>
-          Hola <b>{ellipseText(user.first_name, 10)}</b>
+        <span title={`${user.first_name} ${user.last_name}`}>
+          <b>{ellipseText(`${user.first_name} ${user.last_name}`, 10)}</b>
         </span>
       </p>
-      <Avatar alt={user.name} src={user.image} />
+      <Avatar
+        alt={user.name}
+        onError={(e) =>
+          handleImageError(e, "/images/avatar-fallback-image.png")
+        }
+        src={user.image}
+      />
       {showDropdown ? (
         <DropdownContainer ref={dropdownRef}>
           <DropdownButton onClick={() => router.push("/publicar")}>
@@ -51,8 +58,8 @@ const MenuContainer = styled.div`
   cursor: pointer;
   display: flex;
   font-size: 16px;
-  margin-left: 40px;
-  min-width: 180px;
+  min-width: 145px;
+  width: 180px;
   position: relative;
   > p {
     align-items: center;
@@ -64,7 +71,7 @@ const MenuContainer = styled.div`
     justify-content: center;
     margin: 0;
     margin-right: -12px;
-    min-width: 158px;
+    min-width: 140px;
     padding: 5px 15px;
     > span b {
       font-weight: 600;
@@ -73,12 +80,15 @@ const MenuContainer = styled.div`
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
   }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: 165px;
+  }
 `;
 
 const Avatar = styled.img`
   border-radius: 50%;
   height: 44px;
-  object-fit: cover;
+  object-fit: contain;
   width: 44px;
 `;
 

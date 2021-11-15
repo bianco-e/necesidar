@@ -28,28 +28,17 @@ export default function MainHero() {
                 onClick={() => push("/explore")}
                 size="md"
                 variant="primary"
-                width="180px"
               >
                 Explorar
               </Button>
             </a>
           </Link>
           {!session && !loading ? (
-            <Button
-              onClick={() => signIn()}
-              size="md"
-              variant="needs"
-              width="180px"
-            >
+            <Button onClick={() => signIn()} size="md" variant="needs">
               Ingresar
             </Button>
           ) : (
-            <Button
-              onClick={() => push("/publicar")}
-              size="md"
-              variant="needs"
-              width="180px"
-            >
+            <Button onClick={() => push("/publicar")} size="md" variant="needs">
               Publicar
             </Button>
           )}
@@ -82,6 +71,7 @@ const Container = styled.div`
     margin: auto;
     text-align: end;
     width: ${({ theme }) => theme.desktop_container};
+    z-index: 1;
     > h1 {
       font-size: 48px;
     }
@@ -97,18 +87,51 @@ const Container = styled.div`
       align-items: center;
       display: flex;
       justify-content: space-between;
-      > button {
+      > button,
+      a button {
         margin-left: 40px;
+        width: 180px;
         &:first-child {
           margin-left: 0;
         }
       }
     }
-    @media (max-width: ${LARGE_BREAKPOINT}) {
+  }
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    min-height: 500px;
+    > img {
+      height: 510px;
+      width: 750px;
+    }
+    > div.content {
       width: ${({ theme }) => theme.tablet_container};
     }
-    @media (max-width: ${SMALL_BREAKPOINT}) {
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    min-height: 480px;
+    > img {
+      display: none;
+    }
+    > div.content {
       width: ${({ theme }) => theme.mobile_container};
+      > h1 {
+        font-size: 36px;
+      }
+      > h2 {
+        font-size: 26px;
+      }
+      > p {
+        font-size: 20px;
+        width: 100%;
+      }
+      > div.buttons-container {
+        width: 100%;
+        > button,
+        a button {
+          margin-left: 15px;
+          width: 160px;
+        }
+      }
     }
   }
 `;

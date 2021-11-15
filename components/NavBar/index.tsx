@@ -20,22 +20,11 @@ export default function NavBar() {
           </a>
         </Link>
         <div className="buttons-container">
-          <Button
-            onClick={() => push("/explore")}
-            size="md"
-            variant="primary"
-            width="180px"
-          >
+          <Button onClick={() => push("/explore")} size="md" variant="primary">
             Explorar
           </Button>
           {!session ? (
-            <Button
-              onClick={() => signIn()}
-              margin="0 0 0 40px"
-              size="md"
-              variant="needs"
-              width="180px"
-            >
+            <Button onClick={() => signIn()} size="md" variant="needs">
               Ingresar
             </Button>
           ) : (
@@ -59,6 +48,9 @@ const NavBarWrapper = styled.header`
   top: 0;
   width: 100%;
   z-index: 10;
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    height: auto;
+  }
 `;
 
 const NavBarContainer = styled.div`
@@ -71,11 +63,26 @@ const NavBarContainer = styled.div`
     align-items: center;
     display: flex;
     justify-content: space-between;
+    > button {
+      margin-right: 20px;
+      width: 180px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
   @media (max-width: ${LARGE_BREAKPOINT}) {
     width: ${({ theme }) => theme.tablet_container};
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
-    width: ${({ theme }) => theme.mobile_container};
+    flex-direction: column;
+    > div.buttons-container {
+      margin-bottom: 10px;
+      width: ${({ theme }) => theme.mobile_container};
+      > button {
+        margin-right: 0;
+        width: 150px;
+      }
+    }
   }
 `;

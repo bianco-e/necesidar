@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { SMALL_BREAKPOINT } from "../../../utils/constants";
 
 interface IProps {
   borderColor?: string;
@@ -61,5 +62,8 @@ const StyledInput = styled.input`
   width: ${({ width }: StyleProps) => width};
   &:focus {
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.15);
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: 90%;
   }
 `;

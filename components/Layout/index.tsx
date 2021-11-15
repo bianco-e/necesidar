@@ -2,6 +2,7 @@ import Head from "next/head";
 import NavBar from "../NavBar";
 import styled from "styled-components";
 import Footer from "../Footer";
+import { SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   children: JSX.Element;
@@ -35,4 +36,7 @@ const LayoutContainer = styled.div`
   padding: 110px 0 0 0;
   min-height: calc(100vh - 120px);
   width: 100%;
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    padding: 150px 0 0 0;
+  }
 `;

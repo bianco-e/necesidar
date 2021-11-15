@@ -18,7 +18,12 @@ export default function Footer() {
         <Link href="/">
           <a>Sugerir cambios</a>
         </Link>
-        <a href="https://www.twitter.com" target="_blank" rel="noreferrer">
+        <a
+          className="twitter-logo"
+          href="https://www.twitter.com"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Image
             alt="twitter"
             height={45}
@@ -38,6 +43,9 @@ const FooterWrapper = styled.footer`
   height: 120px;
   justify-content: center;
   width: 100%;
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    height: 220px;
+  }
 `;
 
 const FooterContainer = styled.div`
@@ -57,7 +65,12 @@ const FooterContainer = styled.div`
     }
   }
   @media (max-width: ${LARGE_BREAKPOINT}) {
+    flex-direction: column;
+    height: 220px;
     width: ${({ theme }) => theme.tablet_container};
+    > a.twitter-logo {
+      margin-top: 10px;
+    }
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
     width: ${({ theme }) => theme.mobile_container};

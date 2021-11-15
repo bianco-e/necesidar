@@ -71,3 +71,12 @@ export const fetchCities = (setter: (data: Geo[]) => void, id: string) => {
       return setter([]);
     });
 };
+
+//IMAGES HELPERS
+export const handleImageError = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>,
+  fallbackImage: string
+) => {
+  const target = e.target as HTMLImageElement;
+  target.setAttribute("src", fallbackImage);
+};

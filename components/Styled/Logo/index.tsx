@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { SMALL_BREAKPOINT } from "../../../utils/constants";
 
 interface IProps {
   cursor?: string;
@@ -30,5 +31,10 @@ const LogoContainer = styled.div`
   }
   > h1.dar {
     color: ${({ theme }) => theme.primary_green};
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    > h1 {
+      margin: 10px 0 5px 0;
+    }
   }
 `;
