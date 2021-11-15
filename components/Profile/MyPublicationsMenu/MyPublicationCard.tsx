@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ellipseText } from "../../../utils/helpers";
 import { useRouter } from "next/router";
+import { handleToggleFavorite } from "../../../queries";
 
 interface IProps {
   forFavorites?: boolean;
@@ -17,21 +18,6 @@ export default function MyPublicationCard({
 }: IProps) {
   const [showButtons, setShowButtons] = useState<boolean>(false);
   const { push } = useRouter();
-
-  const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const body = JSON.stringify({
-      user_id: user.user_id,
-      publication_id: publication.id,
-    });
-    fetch(`/api/favorites/toggle-favorite`, {
-      method: "POST",
-      body,
-    })
-      .then((res) => res.json())
-      .then((response) => response)
-      .catch((e) => console.error(e));
-  };
 
   return (
     <Card
@@ -52,7 +38,11 @@ export default function MyPublicationCard({
             </button>
           </>
         ) : (
-          <button onClick={handleToggleFavorite}>
+          <button
+            onClick={(e) =>
+              handleToggleFavorite(e, user.user_id!, publication.id)
+            }
+          >
             <img alt="favorito" src="/icons/singleview-filled-heart-icon.png" />
           </button>
         )}
