@@ -3,13 +3,16 @@ import styled from "styled-components";
 import { PublicationData } from "../../interfaces";
 import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 import { getDaysDifference } from "../../utils/helpers";
+import ShareModalContent from "../ShareModalContent";
 import Button from "../Styled/Button";
+import Modal from "../Styled/Modal";
 
 interface IProps {
   data: PublicationData;
 }
 
 export default function CardSingleView({ data }: IProps) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isInFavs, setIsInFavs] = useState<boolean>(false);
   const daysDiff = getDaysDifference(data.created_at, new Date().getTime());
 
@@ -18,76 +21,82 @@ export default function CardSingleView({ data }: IProps) {
   };
 
   return (
-    <Card>
-      <CardTitle>{data.title}</CardTitle>
-      <div className="main-container">
-        <div className="pictures-container">
-          <img alt={data.title} src={data.images[0]} />
-        </div>
-        <DataContainer>
-          <div className="features-container">
-            <ul>
-              <li className={data.can_move ? "" : "overline"}>
-                <img alt="movilidad" src="/icons/card-car-icon.png" />
-                <span>
-                  {data.can_move ? "Tiene movilidad" : "No tiene movilidad"}
-                </span>
-              </li>
-              <li>
-                <img alt="ubicacion" src="/icons/card-location-icon.png" />
-                <span>
-                  {data.city}, {data.province}
-                </span>
-              </li>
-              <li>
-                <img alt="calendario" src="/icons/card-calendar-icon.png" />
-                <span>
-                  {daysDiff < 1
-                    ? "Publicado hoy"
-                    : `Publicado hace ${daysDiff} ${
-                        daysDiff === 1 ? "día" : "días"
-                      }`}
-                </span>
-              </li>
-              <li className="user-data">
-                <img alt={data.user_first_name} src={data.user_image} />
-                <p>
-                  {data.user_first_name}, {data.user_last_name}
-                </p>
-              </li>
-            </ul>
+    <>
+      <Card>
+        <CardTitle>{data.title}</CardTitle>
+        <div className="main-container">
+          <div className="pictures-container">
+            <img alt={data.title} src={data.images[0]} />
+          </div>
+          <DataContainer>
+            <div className="features-container">
+              <ul>
+                <li className={data.can_move ? "" : "overline"}>
+                  <img alt="movilidad" src="/icons/card-car-icon.png" />
+                  <span>
+                    {data.can_move ? "Tiene movilidad" : "No tiene movilidad"}
+                  </span>
+                </li>
+                <li>
+                  <img alt="ubicacion" src="/icons/card-location-icon.png" />
+                  <span>
+                    {data.city}, {data.province}
+                  </span>
+                </li>
+                <li>
+                  <img alt="calendario" src="/icons/card-calendar-icon.png" />
+                  <span>
+                    {daysDiff < 1
+                      ? "Publicado hoy"
+                      : `Publicado hace ${daysDiff} ${
+                          daysDiff === 1 ? "día" : "días"
+                        }`}
+                  </span>
+                </li>
+                <li className="user-data">
+                  <img alt={data.user_first_name} src={data.user_image} />
+                  <p>
+                    {data.user_first_name}, {data.user_last_name}
+                  </p>
+                </li>
+              </ul>
 
-            <div className="favshare-buttons-container">
-              <button>
-                <img alt="compartir" src="/icons/singleview-share-icon.png" />
-              </button>
-              <button onClick={handleFavorite}>
-                <img
-                  alt="favoritos"
-                  src={`/icons/singleview${
-                    isInFavs ? "-filled" : ""
-                  }-heart-icon.png`}
-                />
-              </button>
+              <div className="favshare-buttons-container">
+                <button onClick={() => setIsModalOpen(true)}>
+                  <img alt="compartir" src="/icons/singleview-share-icon.png" />
+                </button>
+                <button onClick={handleFavorite}>
+                  <img
+                    alt="favoritos"
+                    src={`/icons/singleview${
+                      isInFavs ? "-filled" : ""
+                    }-heart-icon.png`}
+                  />
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="buttons-container">
-            <Button variant="needs" onClick={() => {}}>
-              Contactar por E-mail
-            </Button>
-            <Button variant="donations" onClick={() => {}}>
-              Contactar por WhatsApp
-            </Button>
-          </div>
-        </DataContainer>
-      </div>
+            <div className="buttons-container">
+              <Button variant="needs" onClick={() => {}}>
+                Contactar por E-mail
+              </Button>
+              <Button variant="donations" onClick={() => {}}>
+                Contactar por WhatsApp
+              </Button>
+            </div>
+          </DataContainer>
+        </div>
 
-      <div className="description">
-        <h3>Descripción</h3>
-        <p>{data.description}</p>
-      </div>
-    </Card>
+        <div className="description">
+          <h3>Descripción</h3>
+          <p>{data.description}</p>
+        </div>
+      </Card>
+
+      <Modal closeModal={() => setIsModalOpen(false)} isOpen={isModalOpen}>
+        <ShareModalContent />
+      </Modal>
+    </>
   );
 }
 

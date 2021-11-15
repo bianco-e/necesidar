@@ -15,7 +15,7 @@ export default function Footer() {
         <Link href="/">
           <a>¿Qué es necesidar?</a>
         </Link>
-        <Link href="/">
+        <Link href="/feedback">
           <a>Sugerir cambios</a>
         </Link>
         <a

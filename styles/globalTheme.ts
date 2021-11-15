@@ -8,6 +8,8 @@ export default {
   primary_green: "#8edcb9",
   primary_green_light: "#9fedc9",
   primary_red_light: "#ff8d81",
+  transparent: "rgba(10,10,10, 0.1)",
+  warning_red: "#ff0040",
   white: "#fff",
   //WIDTHS
   desktop_container: "1120px",
