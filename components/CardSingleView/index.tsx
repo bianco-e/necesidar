@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { PublicationData } from "../../interfaces";
 import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 import { getDaysDifference } from "../../utils/helpers";
+import ImagesSlider from "../ImagesSlider";
 import ShareModalContent from "../ShareModalContent";
 import Button from "../Styled/Button";
 import Modal from "../Styled/Modal";
@@ -26,7 +27,13 @@ export default function CardSingleView({ data }: IProps) {
         <CardTitle>{data.title}</CardTitle>
         <div className="main-container">
           <div className="pictures-container">
-            <img alt={data.title} src={data.images[0]} />
+            <ImagesSlider
+              slides={data.images.map((image, idx) => ({
+                image,
+                alt: `${data.title}-${idx}`,
+              }))}
+              variant={data.publication_type === 0 ? "needs" : "donations"}
+            />
           </div>
           <DataContainer>
             <div className="features-container">
@@ -111,11 +118,12 @@ const Card = styled.div`
     justify-content: space-between;
     width: 100%;
     > div.pictures-container {
-      > img {
-        border-radius: 10px;
-        height: 440px;
-        width: 650px;
-      }
+      border-radius: 10px;
+      border: 1px solid ${({ theme }) => theme.gray};
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+      height: 440px;
+      overflow: hidden;
+      width: 650px;
     }
   }
   > div.description {
