@@ -10,16 +10,16 @@ export default function ImagesSlider({ slides, variant }: IProps) {
   if (slides.length < 1) return null;
   const [current, setCurrent] = useState<number>(0);
   const [lastButtonPressed, setLastButtonPressed] =
-    useState<keyof typeof ANIMATIONS>();
+    useState<keyof typeof ANIMATIONS>("next");
   const [currentAnimation, setCurrentAnimation] = useState<any>();
 
   const nextSlide = () => {
     setLastButtonPressed("next");
-    setCurrent(current === slides.length - 1 ? 0 : current + 1);
+    setCurrent(current + 1);
   };
   const previousSlide = () => {
     setLastButtonPressed("previous");
-    setCurrent(current === 0 ? slides.length - 1 : current - 1);
+    setCurrent(current - 1);
   };
 
   useEffect(() => {
@@ -31,22 +31,32 @@ export default function ImagesSlider({ slides, variant }: IProps) {
 
   return (
     <SliderWrapper>
-      <ArrowButton
-        aria-label="anterior"
-        onClick={previousSlide}
-        rotateDegrees="90deg"
-        sideDistance="left: 20px;"
-      >
-        <img alt="anterior" src={`/icons/dropdown-${variant}-arrow-icon.png`} />
-      </ArrowButton>
-      <ArrowButton
-        aria-label="siguiente"
-        onClick={nextSlide}
-        rotateDegrees="270deg"
-        sideDistance="right: 20px;"
-      >
-        <img alt="anterior" src={`/icons/dropdown-${variant}-arrow-icon.png`} />
-      </ArrowButton>
+      {current > 0 ? (
+        <ArrowButton
+          aria-label="anterior"
+          onClick={previousSlide}
+          rotateDegrees="90deg"
+          sideDistance="left: 20px;"
+        >
+          <img
+            alt="anterior"
+            src={`/icons/dropdown-${variant}-arrow-icon.png`}
+          />
+        </ArrowButton>
+      ) : null}
+      {current < slides.length - 1 ? (
+        <ArrowButton
+          aria-label="siguiente"
+          onClick={nextSlide}
+          rotateDegrees="270deg"
+          sideDistance="right: 20px;"
+        >
+          <img
+            alt="anterior"
+            src={`/icons/dropdown-${variant}-arrow-icon.png`}
+          />
+        </ArrowButton>
+      ) : null}
       <SlideImage
         alt={slides[current].alt}
         animation={currentAnimation}
