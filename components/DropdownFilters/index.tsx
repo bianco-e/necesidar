@@ -113,16 +113,14 @@ export default function DropdownFilters({
 
   return (
     <>
-      <Container>
+      <Container className="dropdowns-container">
         <Dropdown
           variant={variant}
-          width="230px"
           options={variant === "needs" ? TYPE_OPTIONS : TYPE_OPTIONS.reverse()}
         />
         <Dropdown
           initialValue={state.category}
           variant={variant}
-          width="230px"
           options={[
             {
               name: "Categoría",
@@ -138,14 +136,12 @@ export default function DropdownFilters({
         <Dropdown
           initialValue={state.province}
           variant={variant}
-          width="230px"
           options={PROVINCES_OPTIONS}
         />
         <Dropdown
           disabled={cities.length < 1}
           initialValue={state.city}
           variant={variant}
-          width="230px"
           options={parseGeoData(
             {
               name: "Localidad",
@@ -194,9 +190,26 @@ const Container = styled.div`
   margin-bottom: 50px;
   width: ${({ theme }) => theme.desktop_container};
   @media (max-width: ${LARGE_BREAKPOINT}) {
+    &.dropdowns-container {
+      flex-wrap: wrap;
+      margin-bottom: 0;
+      > .nd-dropdown {
+        margin-bottom: 15px;
+        width: 47%;
+      }
+      > .nd-dropdown button {
+        width: 100%;
+      }
+    }
     width: ${({ theme }) => theme.tablet_container};
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
     width: ${({ theme }) => theme.mobile_container};
+    &.dropdowns-container {
+      > .nd-dropdown,
+      .nd-dropdown button {
+        width: 100%;
+      }
+    }
   }
 `;

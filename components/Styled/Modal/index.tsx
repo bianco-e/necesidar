@@ -58,7 +58,12 @@ const ModalWrapper = styled.div`
 
 const ModalContainer = styled.div`
   animation: 0.3s ${fallingAnimation} forwards;
+  background: ${({ theme }) => theme.not_white};
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.gray};
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   margin: auto;
+  padding: 25px;
   position: relative;
   > button {
     background: none;

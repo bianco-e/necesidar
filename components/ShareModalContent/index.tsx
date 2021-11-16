@@ -40,16 +40,11 @@ export default function ShareModalContent() {
 
 const Wrapper = styled.div`
   align-items: center;
-  background: ${({ theme }) => theme.not_white};
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.gray};
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   height: 400px;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 25px;
   width: 500px;
   > h1.title {
     font-size: 36px;

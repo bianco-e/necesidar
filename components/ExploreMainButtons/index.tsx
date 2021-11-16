@@ -71,9 +71,10 @@ const ButtonsContainer = styled.div`
       height: 120px;
       > span {
         font-size: 15px;
+        font-weight: 600;
       }
       > img {
-        width: 80px;
+        width: 90px;
       }
     }
   }

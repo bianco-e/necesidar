@@ -173,7 +173,7 @@ const StyledButton = styled.button`
   }
   &:disabled {
     background: ${({ theme }) => theme.white};
-    border: 4px solid ${({ theme }) => theme.gray};
+    border: 3px solid ${({ theme }) => theme.gray};
     box-shadow: none;
     color: ${({ theme }) => theme.dark_gray};
     cursor: not-allowed;

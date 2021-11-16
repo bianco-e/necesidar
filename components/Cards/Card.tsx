@@ -145,7 +145,7 @@ export const CardContainer = styled.div`
     width: calc(50% - 20px);
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
-    width: calc(100% - 20px);
+    width: 100%;
   }
   &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);

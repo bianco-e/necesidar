@@ -37,8 +37,13 @@ const Title = styled.h1`
   font-size: 44px;
   font-weight: 600;
   margin: 0 0 50px 0;
+  text-align: center;
   @media (max-width: ${LARGE_BREAKPOINT}) {
     font-size: 34px;
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    font-size: 26px;
+    max-width: ${({ theme }) => theme.mobile_container};
   }
 `;
 const CardsContainer = styled.div`

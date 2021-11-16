@@ -12,6 +12,7 @@ interface DropdownOption {
 }
 
 interface IProps {
+  className?: string;
   disabled?: boolean;
   initialValue?: string;
   options: DropdownOption[];
@@ -20,6 +21,7 @@ interface IProps {
 }
 
 export default function Dropdown({
+  className = "nd-dropdown",
   disabled = false,
   initialValue,
   variant = "needs",
@@ -47,7 +49,7 @@ export default function Dropdown({
   };
 
   return (
-    <DropdownContainer variant={variant}>
+    <DropdownContainer className={className} variant={variant}>
       <Button
         disabled={disabled}
         onClick={() => setIsOpen(!isOpen)}

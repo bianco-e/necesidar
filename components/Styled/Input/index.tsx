@@ -64,6 +64,6 @@ const StyledInput = styled.input`
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.15);
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
-    width: 90%;
+    width: 100%;
   }
 `;

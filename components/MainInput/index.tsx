@@ -3,7 +3,7 @@ import Input from "../Styled/Input";
 import globalTheme from "../../styles/globalTheme";
 import { checkKeyDown } from "../../utils/helpers";
 import { useRouter } from "next/router";
-import { LARGE_BREAKPOINT } from "../../utils/constants";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   onEnterDown?: (v: string) => void;
@@ -80,5 +80,8 @@ const Container = styled.div`
     @media (max-width: ${LARGE_BREAKPOINT}) {
       font-size: 36px;
     }
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    width: ${({ theme }) => theme.mobile_container};
   }
 `;
