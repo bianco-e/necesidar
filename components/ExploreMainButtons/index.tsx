@@ -42,7 +42,7 @@ const ButtonsContainer = styled.div`
     transition: all 0.4s ease;
     > span {
       font-size: 30px;
-      transition: all 0.4s ease;
+      text-align: center;
     }
     > img {
       width: 120px;
@@ -54,11 +54,27 @@ const ButtonsContainer = styled.div`
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
       }
     }
+    &:active {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      transform: scale(1.02);
+      > span {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+    }
   }
   @media (max-width: ${LARGE_BREAKPOINT}) {
     width: ${({ theme }) => theme.tablet_container};
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
     width: ${({ theme }) => theme.mobile_container};
+    > a {
+      height: 120px;
+      > span {
+        font-size: 15px;
+      }
+      > img {
+        width: 80px;
+      }
+    }
   }
 `;

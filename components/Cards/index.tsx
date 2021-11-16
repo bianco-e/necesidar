@@ -37,6 +37,9 @@ const Title = styled.h1`
   font-size: 44px;
   font-weight: 600;
   margin: 0 0 50px 0;
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    font-size: 34px;
+  }
 `;
 const CardsContainer = styled.div`
   display: flex;
