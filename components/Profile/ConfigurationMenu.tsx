@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Geo, SelectedFilter, SessionUser } from "../../interfaces";
+import { SMALL_BREAKPOINT } from "../../utils/constants";
 import { fetchCities, parseGeoData } from "../../utils/helpers";
 import Button from "../Styled/Button";
 import Dropdown from "../Styled/Dropdown";
@@ -197,6 +198,21 @@ const Wrapper = styled.div`
       font-size: 10px;
       font-style: italic;
       margin-top: -20px;
+    }
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    > div.container {
+      > div.menu-field {
+        flex-direction: column;
+        > .nd-dropdown,
+        .nd-dropdown button {
+          width: 285px;
+        }
+      }
+      > span.disclaimer {
+        align-self: center;
+        margin-top: 0;
+      }
     }
   }
 `;

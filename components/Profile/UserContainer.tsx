@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../Styled/Button";
 import { useRouter } from "next/router";
 import { handleImageError } from "../../utils/helpers";
+import { LARGE_BREAKPOINT, SMALL_BREAKPOINT } from "../../utils/constants";
 
 interface IProps {
   user: SessionUser;
@@ -65,9 +66,16 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 660px;
+  height: 100%;
   padding: 25px;
   width: 330px;
+  @media (max-width: ${LARGE_BREAKPOINT}) {
+    width: 240px;
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    height: 660px;
+    width: 100%;
+  }
 `;
 
 const Container = styled.div`

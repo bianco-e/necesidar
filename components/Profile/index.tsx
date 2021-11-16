@@ -22,6 +22,7 @@ export default function Profile({ children, user, title }: IProps) {
 const Wrapper = styled.main`
   align-items: center;
   display: flex;
+  height: 660px;
   justify-content: space-between;
   margin-bottom: 40px;
   width: ${({ theme }) => theme.desktop_container};
@@ -29,6 +30,8 @@ const Wrapper = styled.main`
     width: ${({ theme }) => theme.tablet_container};
   }
   @media (max-width: ${SMALL_BREAKPOINT}) {
+    flex-direction: column;
+    height: auto;
     width: ${({ theme }) => theme.mobile_container};
   }
 `;
