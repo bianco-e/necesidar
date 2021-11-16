@@ -24,9 +24,7 @@ export default function CardSingleView({ data }: IProps) {
   return (
     <>
       <Card>
-        <CardHeader
-          content={data.publication_type === 0 ? "Necesidad" : "Donación"}
-        >
+        <CardHeader publicationType={data.publication_type}>
           <div className="container">
             <Title>{data.title}</Title>
             <FavShareButtonsContainer className="fav-share-container">
@@ -81,6 +79,9 @@ export default function CardSingleView({ data }: IProps) {
         </CardHeader>
         <div className="main-container">
           <div className="pictures-container">
+            {data.is_urgent ? (
+              <span className="urgent-box">Urgente</span>
+            ) : null}
             <ImagesSlider
               slides={data.images.map((image, idx) => ({
                 image,
@@ -188,7 +189,20 @@ const Card = styled.div`
       box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
       height: 100%;
       overflow: hidden;
+      position: relative;
       width: 650px;
+      > span.urgent-box {
+        background: ${({ theme }) => theme.primary_red};
+        border-radius: 10px 0 0 10px;
+        color: ${({ theme }) => theme.not_white};
+        font-size: 15px;
+        font-weight: bold;
+        padding: 5px 15px;
+        position: absolute;
+        right: 0;
+        top: 20px;
+        z-index: 1;
+      }
     }
   }
   > div.description {
@@ -413,7 +427,7 @@ const FavShareButtonsContainer = styled.div`
 `;
 
 interface CardHeaderStyleProps {
-  content: string;
+  publicationType: number;
 }
 
 const CardHeader = styled.section`
@@ -427,8 +441,14 @@ const CardHeader = styled.section`
   position: relative;
   width: 100%;
   &:after {
-    content: ${({ content }: CardHeaderStyleProps) => `"${content}";`}
-    color: ${({ theme }) => theme.primary_green};
+    content: ${({ publicationType }: CardHeaderStyleProps) =>
+      `"${publicationType === 0 ? "Necesidad" : "Donación"}";`}
+    color: ${({
+      publicationType,
+      //@ts-ignore
+      theme,
+    }: CardHeaderStyleProps) =>
+      `${publicationType === 0 ? theme.primary_red : theme.primary_green};`}
     font-size: 16px;
     font-weight: 600;
     position: absolute;
