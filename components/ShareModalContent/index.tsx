@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { SMALL_BREAKPOINT } from "../../utils/constants";
 
 export default function ShareModalContent() {
   return (
@@ -49,6 +50,7 @@ const Wrapper = styled.div`
   > h1.title {
     font-size: 36px;
     margin: 0;
+    text-align: center;
   }
   > div.buttons-container {
     align-items: center;
@@ -57,6 +59,13 @@ const Wrapper = styled.div`
     height: 250px;
     justify-content: space-between;
     width: 100%;
+  }
+  @media (max-width: ${SMALL_BREAKPOINT}) {
+    height: 320px;
+    width: 280px;
+    > h1.title {
+      font-size: 32px;
+    }
   }
 `;
 

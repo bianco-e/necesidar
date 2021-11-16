@@ -89,7 +89,7 @@ const Container = styled.div`
       justify-content: space-between;
       > button,
       a button {
-        margin-left: 40px;
+        margin-left: 20px;
         width: 180px;
         &:first-child {
           margin-left: 0;
@@ -128,7 +128,6 @@ const Container = styled.div`
         width: 100%;
         > button,
         a button {
-          margin-left: 15px;
           width: 160px;
         }
       }
