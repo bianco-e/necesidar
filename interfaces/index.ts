@@ -57,3 +57,9 @@ export interface Session {
   expires: Date;
   user: SessionUser;
 }
+
+export interface UTM {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+}

@@ -32,6 +32,7 @@ export default function Dropdown({
     options[0]
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     if (initialValue) {
@@ -40,7 +41,34 @@ export default function Dropdown({
   }, [initialValue]);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   useOutsideClick(dropdownRef, setIsOpen, isOpen);
+
+  // Focus input to type option value
+  useEffect(() => {
+    if (isOpen && inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, [isOpen, inputRef]);
+
+  // Check if typed value by user exists and focus that option
+  useEffect(() => {
+    if (isOpen && searchValue) {
+      const foundOption = options.find((opt) =>
+        opt.name.toLowerCase().startsWith(searchValue.toLowerCase())
+      );
+      if (foundOption) {
+        const optionElement: HTMLElement | null = document.getElementById(
+          `option-${foundOption.name.toLowerCase().split(" ").join("-")}`
+        );
+        if (optionElement) {
+          optionElement.focus();
+          inputRef.current!.focus();
+        }
+      }
+      setTimeout(() => setSearchValue(""), 2000);
+    }
+  }, [isOpen, searchValue]);
 
   const handleSelection = (o: DropdownOption) => {
     setShowingOption(o);
@@ -50,6 +78,11 @@ export default function Dropdown({
 
   return (
     <DropdownContainer className={className} variant={variant}>
+      <input
+        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={searchValue}
+      />
       <Button
         disabled={disabled}
         onClick={() => setIsOpen(!isOpen)}
@@ -70,9 +103,13 @@ export default function Dropdown({
       {isOpen ? (
         <div className="options-container" ref={dropdownRef}>
           {options.map((o, i) => (
-            <span key={`${o.name}-${i}`} onClick={() => handleSelection(o)}>
+            <button
+              id={`option-${o.name.toLowerCase().split(" ").join("-")}`}
+              key={`${o.name}-${i}`}
+              onClick={() => handleSelection(o)}
+            >
               {o.name}
-            </span>
+            </button>
           ))}
         </div>
       ) : null}
@@ -86,6 +123,12 @@ interface StyleProps {
 
 const DropdownContainer = styled.div`
   position: relative;
+  > input {
+    opacity: 0;
+    height: 1px;
+    position: absolute;
+    width: 1px;
+  }
   > button img {
     height: 30px;
     width: 30px;
@@ -125,13 +168,18 @@ const DropdownContainer = styled.div`
       }: StyleProps) =>
         variant === "needs" ? theme.primary_red : theme.primary_green};
     }
-    > span {
+    > button {
       background: ${({ theme }) => theme.white};
+      border: 0;
       border-bottom: 1px solid ${({ theme }) => theme.gray};
+      cursor: pointer;
       display: block;
+      font-size: 15px;
+      margin: 0;
       min-height: 40px;
       overflow: hidden;
       padding: 10px 20px;
+      text-align: left;
       width: 100%;
       &:first-child {
         border-radius: 10px 10px 0 0;
@@ -148,6 +196,10 @@ const DropdownContainer = styled.div`
         }: StyleProps) =>
           variant === "needs" ? theme.primary_red : theme.primary_green};
         color: ${({ theme }) => theme.white};
+      }
+      &:focus {
+        background: ${({ theme }) => theme.gray};
+        outline: none;
       }
     }
   }
